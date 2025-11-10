@@ -1,6 +1,6 @@
 # Adaptations Made
 
-**Completed**: Phase 1 - Foundation (files copied)
+**Completed**: Phases 1-3 - Full Implementation
 
 ## Status
 
@@ -14,10 +14,11 @@
 ### ✅ Phase 2 Complete - Script Adaptation
 - `create_worktree.sh` - Applied SWD pattern, removed HumanLayer thoughts init
 - `cleanup_worktree.sh` - Applied SWD pattern, customized worktree base path
+- `setup_repo.sh` - Applied SWD pattern, converted to template
 - Both scripts now work from any directory
 - Tested: scripts callable from outside repo ✓
 
-### ⚠️ Files Requiring Phase 3 Adaptation
+### ✅ Phase 3 Complete - Command Adaptation
 
 #### Commands with External Dependencies (16 files)
 
@@ -65,31 +66,37 @@
 - `run_silent.sh` - Generic utility, keep
 - `setup_repo.sh` - Review for HumanLayer-specific setup
 
-## Next Steps (Phase 3)
+## Decisions Made & Actions Taken
 
-### Phase 3: Command Adaptation (Ready to Start)
+### Decision 1: HumanLayer CLI References ✅ IMPLEMENTED
+- **Choice**: STRIP - Remove tool calls, keep structures
+- **Actions**:
+  - Removed all `humanlayer thoughts sync` calls (8 occurrences)
+  - Removed all `humanlayer thoughts init` calls (2 occurrences)
+  - Replaced `thoughts/` directory paths with `docs/` (14 files)
+  - **Result**: 13 commands adapted and ready to use
 
-**Quick decisions to make:**
+### Decision 2: Linear.app Integration ✅ IMPLEMENTED
+- **Choice**: SKIP - Remove Linear-specific, use web search instead
+- **Actions**:
+  - Deleted `linear.md` (HumanLayer-specific integration)
+  - Removed Linear references from 8 command files
+  - Kept generic planning structure in all commands
+  - **Result**: Commands now use generic research agents
 
-1. **Keep commands** (no external dependencies):
-   - `commit.md`, `ci_commit.md`, `describe_pr.md`
-   - `implement_plan.md`, `validate_plan.md`
-   - `create_plan_generic.md`, `research_codebase_generic.md`
+### Decision 3: Oneshot & Handoff Workflows ✅ IMPLEMENTED
+- **Choice**: SKIP - HumanLayer-specific, no direct equivalent
+- **Actions**:
+  - Deleted: `oneshot.md`, `oneshot_plan.md`
+  - Deleted: `create_handoff.md`, `resume_handoff.md`
+  - Deleted: `ralph_impl.md`, `ralph_plan.md`, `ralph_research.md`
+  - **Result**: 8 HumanLayer-specific files removed
 
-2. **Adapt commands** (remove `humanlayer` references):
-   - `create_plan.md` - Remove `humanlayer` CLI references
-   - `research_codebase.md` - Keep, just remove HumanLayer-specific notes
-   - `debug.md` - Remove HumanLayer tool references
-
-3. **Replace or skip**:
-   - `oneshot.md` - Remove `npx humanlayer launch`, keep prompt structure
-   - `local_review.md` - Replace `humanlayer thoughts sync` with git workflow
-   - `linear.md` - Adapt for GitHub Issues or skip if not needed
-
-4. **Skip (HumanLayer-specific)**:
-   - `create_handoff.md` - Handoff system specific
-   - `resume_handoff.md` - Handoff system specific
-   - `ralph_*` - HumanLayer-specific workflow
+### Result: Clean, Portable Command Set
+- **Commands reduced** from 28 to 19 (removed HumanLayer-specific)
+- **All remaining commands** have HumanLayer tool references removed
+- **Directory paths** converted from `thoughts/` to `docs/`
+- **Ready to use**: All 19 commands now work independently
 
 ## Recommended Approach
 

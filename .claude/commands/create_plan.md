@@ -27,8 +27,7 @@ Please provide:
 
 I'll analyze this information and work with you to create a comprehensive plan.
 
-Tip: You can also invoke this command with a ticket file directly: `/create_plan thoughts/allison/tickets/eng_1234.md`
-For deeper analysis, try: `/create_plan think deeply about thoughts/allison/tickets/eng_1234.md`
+Tip: You can also invoke this command with context directly: `/create_plan docs/tickets/feature-123.md`
 ```
 
 Then wait for the user's input.
@@ -38,7 +37,7 @@ Then wait for the user's input.
 ### Step 1: Context Gathering & Initial Analysis
 
 1. **Read all mentioned files immediately and FULLY**:
-   - Ticket files (e.g., `thoughts/allison/tickets/eng_1234.md`)
+   - Ticket files (e.g., `docs/allison/tickets/eng_1234.md`)
    - Research documents
    - Related implementation plans
    - Any JSON/data files mentioned
@@ -47,18 +46,17 @@ Then wait for the user's input.
    - **NEVER** read files partially - if a file is mentioned, read it completely
 
 2. **Spawn initial research tasks to gather context**:
-   Before asking the user any questions, use specialized agents to research in parallel:
+Before asking the user any questions, use specialized agents to research in parallel:
 
-   - Use the **codebase-locator** agent to find all files related to the ticket/task
-   - Use the **codebase-analyzer** agent to understand how the current implementation works
-   - If relevant, use the **thoughts-locator** agent to find any existing thoughts documents about this feature
-   - If a Linear ticket is mentioned, use the **linear-ticket-reader** agent to get full details
+- Use the **codebase-locator** agent to find all files related to the task
+- Use the **codebase-analyzer** agent to understand how the current implementation works
+- Use the **web-search-researcher** agent to find external documentation or patterns
 
-   These agents will:
-   - Find relevant source files, configs, and tests
-   - Identify the specific directories to focus on (e.g., if WUI is mentioned, they'll focus on humanlayer-wui/)
-   - Trace data flow and key functions
-   - Return detailed explanations with file:line references
+    These agents will:
+- Find relevant source files, configs, and tests
+- Identify the specific directories to focus on
+- Trace data flow and key functions
+- Return detailed explanations with file:line references
 
 3. **Read all files identified by research tasks**:
    - After research tasks complete, read ALL files they identified as relevant
@@ -110,8 +108,8 @@ After getting initial clarifications:
    - **codebase-pattern-finder** - To find similar features we can model after
 
    **For historical context:**
-   - **thoughts-locator** - To find any research, plans, or decisions about this area
-   - **thoughts-analyzer** - To extract key insights from the most relevant documents
+   - **docs-locator** - To find any research, plans, or decisions about this area
+   - **docs-analyzer** - To extract key insights from the most relevant documents
 
    **For related tickets:**
    - **linear-searcher** - To find similar issues or past implementations
@@ -169,14 +167,13 @@ Once aligned on approach:
 
 After structure approval:
 
-1. **Write the plan** to `thoughts/shared/plans/YYYY-MM-DD-ENG-XXXX-description.md`
-   - Format: `YYYY-MM-DD-ENG-XXXX-description.md` where:
+1. **Write the plan** to `docs/plans/YYYY-MM-DD-DESCRIPTION.md`
+   - Format: `YYYY-MM-DD-DESCRIPTION.md` where:
      - YYYY-MM-DD is today's date
-     - ENG-XXXX is the ticket number (omit if no ticket)
-     - description is a brief kebab-case description
+     - DESCRIPTION is a brief kebab-case description
    - Examples:
-     - With ticket: `2025-01-08-ENG-1478-parent-child-tracking.md`
-     - Without ticket: `2025-01-08-improve-error-handling.md`
+     - `2025-01-08-parent-child-tracking.md`
+     - `2025-01-08-improve-error-handling.md`
 2. **Use this template structure**:
 
 ````markdown
@@ -271,37 +268,31 @@ After structure approval:
 
 ## References
 
-- Original ticket: `thoughts/allison/tickets/eng_XXXX.md`
-- Related research: `thoughts/shared/research/[relevant].md`
+- Related research: `docs/research/[relevant].md`
 - Similar implementation: `[file:line]`
 ````
 
-### Step 5: Sync and Review
+### Step 5: Review and Finalize
 
-1. **Sync the thoughts directory**:
-   - Run `humanlayer thoughts sync` to sync the newly created plan
-   - This ensures the plan is properly indexed and available
+1. **Present the draft plan location**:
+```
+I've created the initial implementation plan at:
+    `docs/plans/YYYY-MM-DD-description.md`
 
-2. **Present the draft plan location**:
-   ```
-   I've created the initial implementation plan at:
-   `thoughts/shared/plans/YYYY-MM-DD-ENG-XXXX-description.md`
+Please review it and let me know:
+- Are the phases properly scoped?
+- Are the success criteria specific enough?
+    - Any technical details that need adjustment?
+- Missing edge cases or considerations?
+```
 
-   Please review it and let me know:
-   - Are the phases properly scoped?
-   - Are the success criteria specific enough?
-   - Any technical details that need adjustment?
-   - Missing edge cases or considerations?
-   ```
+2. **Iterate based on feedback** - be ready to:
+- Add missing phases
+- Adjust technical approach
+    - Clarify success criteria (both automated and manual)
+    - Add/remove scope items
 
-3. **Iterate based on feedback** - be ready to:
-   - Add missing phases
-   - Adjust technical approach
-   - Clarify success criteria (both automated and manual)
-   - Add/remove scope items
-   - After making changes, run `humanlayer thoughts sync` again
-
-4. **Continue refining** until the user is satisfied
+3. **Continue refining** until the user is satisfied
 
 ## Important Guidelines
 
@@ -438,7 +429,7 @@ tasks = [
 User: /implementation_plan
 Assistant: I'll help you create a detailed implementation plan...
 
-User: We need to add parent-child tracking for Claude sub-tasks. See thoughts/allison/tickets/eng_1478.md
+User: We need to add parent-child tracking for Claude sub-tasks. See docs/allison/tickets/eng_1478.md
 Assistant: Let me read that ticket file completely first...
 
 [Reads file fully]

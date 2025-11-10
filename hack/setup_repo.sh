@@ -1,12 +1,17 @@
 #!/bin/bash
 
 # setup_repo.sh - Fresh repository setup script
-# This script sets up a fresh humanlayer repository with all dependencies and builds
+# This script sets up a fresh repository with all dependencies and builds
+# Note: Adapted from HumanLayer setup - customize for your project
 
 set -e  # Exit on any error
 
+# Script location-independent path resolution (SWD pattern)
+SWD=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+REPO_ROOT=$(cd "$SWD/.." && pwd)
+
 # Source the run_silent utility
-source hack/run_silent.sh
+source "$SWD/run_silent.sh"
 
 # Detect if running in CI
 if [ -n "$CI" ] || [ -n "$GITHUB_ACTIONS" ]; then
@@ -28,7 +33,9 @@ install_ci_tools() {
 }
 
 # Main setup flow
-echo "🚀 Setting up HumanLayer repository..."
+echo "🚀 Setting up repository..."
+echo "⚠️  NOTE: This script is a template from HumanLayer. Customize it for your project!"
+echo ""
 
 # Install CI tools if in CI environment
 if [ "$IS_CI" = true ]; then
@@ -37,35 +44,28 @@ fi
 
 # Install platform-specific dependencies
 echo "🔍 Checking platform-specific dependencies..."
-bash hack/install_platform_deps.sh
+bash "$SWD/install_platform_deps.sh"
 
-# Install mockgen if not already installed
-if ! command -v mockgen &> /dev/null; then
-    echo "📦 Installing mockgen..."
-    run_silent "mockgen installation" "go install go.uber.org/mock/mockgen@latest"
-else
-    echo "✓ mockgen already installed"
-fi
+# ⚠️  CUSTOMIZE BELOW FOR YOUR PROJECT
+# The original HumanLayer setup included:
+# - mockgen installation for Go mocking
+# - HLD (Humanlayer Daemon) build
+# - TypeScript SDK build
+# - WUI (Web UI) build
+# - hlyr CLI build
+#
+# Replace these with commands for your actual project dependencies
 
-# Repository-specific setup commands
-echo "📦 Generating HLD mocks..."
-run_silent "HLD mock generation" "make -C hld mocks"
+echo "📦 TODO: Add your project-specific setup commands here"
+echo "Examples:"
+echo "  - npm install"
+echo "  - make setup"
+echo "  - bun install"
+echo "  - cargo build"
 
-echo "📦 Installing HLD SDK dependencies..."
-run_silent "hld-sdk bun install" "bun install --cwd=hld/sdk/typescript"
-
-echo "🏗️  Building HLD TypeScript SDK..."
-run_silent "hld-sdk build" "sh -c 'cd hld/sdk/typescript && bun run build'"
-
-echo "📦 Installing WUI dependencies..."
-run_silent "humanlayer-wui bun install" "bun install --cwd=humanlayer-wui"
-
-echo "🔧 Creating placeholder binaries for Tauri..."
-mkdir -p humanlayer-wui/src-tauri/bin
-touch humanlayer-wui/src-tauri/bin/hld
-touch humanlayer-wui/src-tauri/bin/humanlayer
-
-echo "🏗️  Building hlyr..."
-run_silent "hlyr build" "npm i -C hlyr && npm run build -C hlyr"
-
-echo "✅ Repository setup complete!"
+echo "✅ Basic setup complete!"
+echo ""
+echo "Next steps:"
+echo "1. Customize this script for your project"
+echo "2. Add your project's build commands"
+echo "3. Run from repo root: ./hack/setup_repo.sh"
