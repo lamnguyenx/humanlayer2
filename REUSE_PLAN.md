@@ -111,7 +111,7 @@ Commands that are pure prompts with no external dependencies:
 Instead of listing what to copy, **copy everything, then filter**:
 ```bash
 # Copy all
-rsync -av source/.claude/commands/ dest/.claude/commands/
+rsync -havP --stats source/.claude/commands/ dest/.claude/commands/
 
 # Find what needs work
 cd dest/.claude/commands
@@ -126,7 +126,7 @@ grep -h "humanlayer\|npx\|hack/\|linear" *.md | sort | uniq
 ### Commands That Need Replacement
 
 #### `oneshot.md`
-**Current**: Uses `npx humanlayer launch --model opus ...`  
+**Current**: Uses `npx humanlayer launch --model opus ...`
 **Replacement**: Create Claude Code session manually with prompt at top:
 ```
 # Oneshot Plan for [TICKET-ID]
@@ -139,7 +139,7 @@ Now execute the plan step-by-step...
 ```
 
 #### `linear.md`
-**Current**: Uses HumanLayer's Linear MCP integration  
+**Current**: Uses HumanLayer's Linear MCP integration
 **Replacement Options**:
 1. Use Claude's native web search + manual Linear updates
 2. Adapt to your issue tracker (GitHub Issues, Jira, etc.)
@@ -180,16 +180,14 @@ done
 **Tasks**:
 ```bash
 # 1. Copy core files
-rsync -av source/.claude/commands/ dest/.claude/commands/
-rsync -av source/.claude/agents/ dest/.claude/agents/
-cp source/.claude/settings.json dest/.claude/
+rsync -havP --stats source/.claude/commands/ dest/.claude/commands/
+rsync -havP --stats source/.claude/agents/ dest/.claude/agents/
+rsync -havP --stats source/.claude/settings.json dest/.claude/
 
 # 2. Copy and adapt scripts
 mkdir -p dest/hack
-for script in source/hack/*.sh; do
-  cp "$script" dest/hack/
-  chmod +x "dest/hack/$(basename "$script")"
-done
+rsync -havP --stats source/hack/*.sh dest/hack/
+chmod +x "dest/hack/"*.sh
 
 # 3. Find what needs adaptation
 cd dest/.claude/commands
@@ -287,9 +285,9 @@ SOURCE_REPO="__submodules__/humanlayer/humanlayer"
 DEST_REPO="."
 
 # Copy all core files
-rsync -av "$SOURCE_REPO/.claude/" "$DEST_REPO/.claude/"
+rsync -havP --stats "$SOURCE_REPO/.claude/" "$DEST_REPO/.claude/"
 mkdir -p "$DEST_REPO/hack"
-rsync -av "$SOURCE_REPO/hack/" "$DEST_REPO/hack/"
+rsync -havP --stats "$SOURCE_REPO/hack/" "$DEST_REPO/hack/"
 chmod +x "$DEST_REPO/hack/"*.sh
 
 # Identify what needs adaptation
@@ -413,9 +411,9 @@ do_something() {
   git push
   ```
 - **Option B**: Rsync to a shared location
-  ```bash
-  rsync -av ./thoughts/ ~/shared-docs/
-  ```
+```bash
+rsync -havP --stats ./thoughts/ ~/shared-docs/
+```
 - **Option C**: Remove the step (keep docs local)
   ```
   # Edit command file: delete the "sync" instruction
