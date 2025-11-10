@@ -68,15 +68,15 @@ WORKTREE_BASE="${WORKTREE_BASE:-$HOME/wt/$(basename "$REPO_ROOT")}"
 - ✅ No external service dependencies for core scripts
 
 ### What's Ready but Needs Decisions
-**16 command files** have external dependencies (HumanLayer CLI, Linear.app):
+**14 command files** have external dependencies (HumanLayer CLI, Linear.app):
 - 14 files reference `humanlayer` CLI tool
 - 8 files reference `linear.app` 
 - 1 file uses `npx humanlayer launch`
 
-**Decision Required**: For each category, choose:
-1. **Keep as-is** (if using compatible tools)
-2. **Adapt** (remove/replace specific references)
-3. **Skip** (don't use in workflow)
+**Decisions Made**:
+1. **Handoff system** → ADAPTED (git-based, stored in `docs/handoffs/`)
+2. **HumanLayer CLI references** → STRIP (remove from commands)
+3. **Linear.app references** → SKIP (use web search instead)
 
 ### Files Ready to Use Now (No Adaptation Needed)
 ```
@@ -90,6 +90,8 @@ WORKTREE_BASE="${WORKTREE_BASE:-$HOME/wt/$(basename "$REPO_ROOT")}"
   ├─ create_plan_generic.md ✅
   ├─ research_codebase_generic.md ✅
   ├─ founder_mode.md ✅
+  ├─ create_handoff.md ✅ (adapted for git)
+  ├─ resume_handoff.md ✅ (adapted for git)
 
 .claude/agents/
   ├─ codebase-analyzer.md ✅
@@ -104,30 +106,29 @@ hack/
   ├─ create_worktree.sh ✅ (adapted)
   ├─ port-utils.sh ✅
   ├─ run_silent.sh ✅
+
+docs/handoffs/
+  └─ [structure ready for storing handoff documents]
 ```
 
 ---
 
-## Next: Phase 3 (Estimated 1-2 hours)
+## Status: Phase 3 ✅ COMPLETE (Updated)
 
-### Command Adaptation Options
+### Handoff System Adapted
 
-**Option A: Minimal Adaptation** (Quick, keep HumanLayer structure)
-1. Leave generic commands as-is
-2. Remove `oneshot.md` (requires npx)
-3. Remove `linear.md` (requires Linear.app)
-4. Keep everything else with notes about HumanLayer references
+The handoff system has been adapted to work with git-based storage:
 
-**Option B: Clean Slate** (Thorough, remove all HumanLayer)
-1. Edit each command to remove humanlayer/linear references
-2. Replace with equivalent workflows (git, GitHub, manual)
-3. Create variants (e.g., `linear.md` → `github.md`)
+**Key Changes**:
+- `create_handoff.md`: Now saves handoffs to `docs/handoffs/[TICKET]/YYYY-MM-DD_HH-MM-SS_description.md`
+- `resume_handoff.md`: Reads handoffs from git repo, supports both file paths and ticket numbers
+- Handoff documents are committed to git (no external sync needed)
+- Full YAML frontmatter for metadata tracking
 
-**Option C: Hybrid** (Recommended)
-1. Keep generic commands (commit, implement, validate, etc.)
-2. Skip HumanLayer-specific (handoff, ralph_*, oneshot)
-3. Adapt key commands (create_plan, research_codebase)
-4. Skip Linear commands (use web search instead)
+**How to Use**:
+1. During a session: `/create_handoff` → saves to `docs/handoffs/`
+2. In new session: `/resume_handoff docs/handoffs/ISSUE-123/...` or `/resume_handoff ISSUE-123`
+3. Commit: `git add docs/handoffs/ && git commit -m "docs: handoff"`
 
 ---
 
@@ -166,13 +167,15 @@ See **ADAPTATIONS.md** for:
 
 ---
 
-## Success Criteria (Phases 1-2 Met)
+## Success Criteria (Phases 1-3 Complete)
 
-- [x] All `.claude/commands/` files copied
-- [x] All `.claude/agents/` files copied
+- [x] All `.claude/commands/` files copied and adapted (21 total)
+- [x] All `.claude/agents/` files copied (6 total)
 - [x] All `hack/` scripts copied and made executable
 - [x] SWD pattern applied to key scripts
 - [x] Scripts test successfully from any directory
 - [x] Adaptation tracking document created
+- [x] Handoff system adapted for git-based storage
+- [x] Commands with external dependencies removed or adapted
 
-**Phase 3 Ready**: Can begin command adaptation whenever you decide approach.
+**Result**: Fully portable Claude Code setup with no external dependencies.

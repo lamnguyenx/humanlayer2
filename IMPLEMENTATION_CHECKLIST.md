@@ -69,17 +69,19 @@
 - [x] `iterate_plan_nt.md` - Removed HumanLayer references ✓
 - [x] `local_review.md` - Replaced HumanLayer sync with docs ✓
 
+### Commands Adapted (Handoff System - Git-Based)
+- [x] `create_handoff.md` - Adapted for git-based storage in `docs/handoffs/` ✓
+- [x] `resume_handoff.md` - Adapted to read from git-stored handoffs ✓
+
 ### Commands Deleted (HumanLayer-Specific - No Equivalent)
 - [x] `oneshot.md` - Deleted (requires npx humanlayer)
 - [x] `oneshot_plan.md` - Deleted (HumanLayer-specific)
-- [x] `create_handoff.md` - Deleted (handoff system specific)
-- [x] `resume_handoff.md` - Deleted (handoff system specific)
 - [x] `ralph_impl.md` - Deleted (Ralph workflow specific)
 - [x] `ralph_plan.md` - Deleted (Ralph workflow specific)
 - [x] `ralph_research.md` - Deleted (Ralph workflow specific)
 - [x] `linear.md` - Deleted (Linear.app specific)
 
-**Result**: 19 commands ready, 9 removed, 0 with external dependencies
+**Result**: 21 commands ready, 7 removed, 0 with external dependencies
 
 **Time**: ~1 hour (completed)
 
@@ -188,11 +190,12 @@ git worktree list
 ### Phase 3 ✅ COMPLETE
 - [x] Decided on HumanLayer CLI references → STRIP
 - [x] Decided on Linear.app references → SKIP
-- [x] Decided on HumanLayer-specific workflows → SKIP
+- [x] Decided on handoff system → ADAPT (git-based storage)
 - [x] Adapted 11 commands (removed all tool references)
-- [x] Deleted 9 HumanLayer-specific commands
+- [x] Adapted 2 handoff commands (create_handoff, resume_handoff)
+- [x] Deleted 7 HumanLayer-specific commands
 - [x] Updated documentation of changes
-- [x] All 19 remaining commands ready to use
+- [x] All 21 remaining commands ready to use
 
 ---
 
@@ -201,18 +204,20 @@ git worktree list
 All phases (1-3) have been successfully completed:
 
 ### What You Have Now
-- **19 production-ready commands** (HumanLayer-specific removed)
+- **21 production-ready commands** (HumanLayer-specific removed, handoff system adapted)
 - **6 reusable agents** (codebase analysis, web search, pattern finding)
 - **10 utility scripts** (git worktree management, platform detection)
 - **Location-independent scripts** (SWD pattern applied)
 - **0 external dependencies** (pure prompts and utilities)
+- **Git-based handoff system** (stores handoffs in `docs/handoffs/`)
 
 ### Files Ready to Use
 ```
-.claude/commands/       19 files (all ready)
+.claude/commands/       21 files (all ready)
 .claude/agents/         6 files (all ready)
 hack/                  10 scripts (all executable)
 .claude/settings.json  (configured)
+docs/handoffs/         [structure for storing handoff documents]
 ```
 
 ### Next Actions
