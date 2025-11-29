@@ -1,5 +1,5 @@
 ---
-description: Create git commits with user approval and no Claude attribution
+description: Create git commits with user approval and no AI attribution
 ---
 
 # Commit Changes
@@ -25,17 +25,26 @@ You are tasked with creating git commits for the changes made during this sessio
    - Show the commit message(s) you'll use
    - Ask: "I plan to create [N] commit(s) with these changes. Shall I proceed?"
 
-4. **Execute upon confirmation:**
+4. **Git Operations - Confirmation Required:**
+   Before executing ANY git commit command:
+   - Show the proposed commit message and affected files
+   - **ASK for explicit confirmation**: "Should I proceed with this commit?"
+   - **WAIT** for user's "yes/confirm" response
+   - Only then execute the git commit
+   - **Never auto-commit without user approval**
+
+5. **Execute upon confirmation:**
    - Use `git add` with specific files (never use `-A` or `.`)
    - Create commits with your planned messages
    - Show the result with `git log --oneline -n [number]`
 
 ## Important:
-- **NEVER add co-author information or Claude attribution**
+- **NEVER add ANY AI/LLM attribution or co-author information**
+- Do not mention: Claude, Cursor, Amp, Kiro, ChatGPT, Copilot, or any other AI tool
 - Commits should be authored solely by the user
-- Do not include any "Generated with Claude" messages
-- Do not add "Co-Authored-By" lines
-- Write commit messages as if the user wrote them
+- Do not include any "Generated with [AI tool]" messages
+- Do not add "Co-Authored-By" lines for any AI assistant
+- Write commit messages as if the user wrote them personally
 
 ## Remember:
 - You have the full context of what was done in this session
