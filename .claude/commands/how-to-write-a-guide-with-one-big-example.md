@@ -9,6 +9,7 @@ Write an one example guide with this structure:
    - Start with the rule principle in bold or clear statement
    - Add clarifying details or sub-points below if needed
    - Keep rules concise but complete
+   - Use (1)(2)... for inline listing if there are long and many things to list (note: this is for "inline listing")
 
 3. **Example section**:
    - Single, comprehensive code block showing ALL rules in practice

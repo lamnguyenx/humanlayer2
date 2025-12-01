@@ -8,6 +8,7 @@
 6. **For commands with many arguments, group related arguments strategically on the same line** based on their logical purpose (e.g., codec + bitrate + samplerate). Balance between vertical space (readability) and horizontal grouping (context)
 7. Align similar elements vertically (redirections, operators, values). This creates columns that make patterns obvious and easier to scan
 8. Maintain consistent indentation hierarchy throughout entire chain. **All lines after `\` must be indented** as they're part of the same command scope
+9. For inline scripts (e.g., in `bash -c` or `python3 -c`), keep the script content at indent 0 to avoid whitespace issues. If the script spans multiple lines, ensure no leading spaces unless intentional.
 
 ## Example:
 
@@ -98,4 +99,18 @@ chmod -R 755 /var/www/myapp
 cd /opt && \
     rm -rf /opt/myapp/.git && \
     rm -rf /tmp/*
+
+# RULE 9: For inline scripts, keep indent 0
+bash -c "
+echo 'Updating system time'
+ntpdate pool.ntp.org
+echo 'Time updated'
+"
+
+python3 -c "
+import sys
+print('Python version:', sys.version)
+for i in range(3):
+    print(f'Count: {i}')
+"
 ```
