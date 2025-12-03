@@ -1,6 +1,6 @@
-**Planning Task: How to Reuse HumanLayer's `.claude/` Files in Your Own Repository**
+**Planning Task: How to Reuse HumanLayer's `dot-claude/` Files in Your Own Repository**
 
-Create a practical, step-by-step plan for reusing HumanLayer's Claude Code command and agent files (from `__submodules__/humanlayer/humanlayer/.claude/`) in your own repository with minimal effort.
+Create a practical, step-by-step plan for reusing HumanLayer's Claude Code command and agent files (from `__submodules__/humanlayer/humanlayer/dot-claude/`) in your own repository with minimal effort.
 
 **Analysis Goals:**
 

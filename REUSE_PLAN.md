@@ -1,10 +1,10 @@
-# Reuse Plan: HumanLayer's `.claude/` Commands & Scripts
+# Reuse Plan: HumanLayer's `dot-claude/` Commands & Scripts
 
 ## Overview
 
 Adopt HumanLayer's proven Claude Code workflow by:
 1. **rsync hack scripts** to your repo, adapt them to work from any directory
-2. **Copy .claude/commands** as-is (generic, no adaptation needed)
+2. **Copy dot-claude/commands** as-is (generic, no adaptation needed)
 3. **Replace Node.js-dependent commands with prompts** (oneshot.md, linear.md)
 
 ---
@@ -53,7 +53,7 @@ This makes scripts callable from anywhere: `./hack/create_worktree.sh` or `cd /t
 
 ---
 
-## 2. `.claude/commands/` Files: Copy As-Is
+## 2. `dot-claude/commands/` Files: Copy As-Is
 
 ### Strategy
 - **Copy all** command files as a baseline
@@ -65,7 +65,7 @@ This makes scripts callable from anywhere: `./hack/create_worktree.sh` or `cd /t
 
 **Run this to find commands needing adaptation:**
 ```bash
-cd your-repo/.claude/commands
+cd your-repo/dot-claude/commands
 
 # Find files referencing humanlayer CLI
 grep -l "humanlayer " *.md
@@ -111,10 +111,10 @@ Commands that are pure prompts with no external dependencies:
 Instead of listing what to copy, **copy everything, then filter**:
 ```bash
 # Copy all
-rsync -havP --stats source/.claude/commands/ dest/.claude/commands/
+rsync -havP --stats source/dot-claude/commands/ dest/dot-claude/commands/
 
 # Find what needs work
-cd dest/.claude/commands
+cd dest/dot-claude/commands
 echo "=== External Dependencies Found ==="
 grep -h "humanlayer\|npx\|hack/\|linear" *.md | sort | uniq
 ```
@@ -147,7 +147,7 @@ Now execute the plan step-by-step...
 
 ---
 
-## 4. `.claude/agents/` Files
+## 4. `dot-claude/agents/` Files
 
 ### Strategy
 - Copy all agent files (they're pure prompt definitions)
@@ -156,7 +156,7 @@ Now execute the plan step-by-step...
 
 ### How to Categorize
 ```bash
-ls -1 source/.claude/agents/*.md | while read f; do
+ls -1 source/dot-claude/agents/*.md | while read f; do
   basename "$f"
 done
 # Copy all; rename only if filenames reference specific projects
@@ -180,9 +180,9 @@ done
 **Tasks**:
 ```bash
 # 1. Copy core files
-rsync -havP --stats source/.claude/commands/ dest/.claude/commands/
-rsync -havP --stats source/.claude/agents/ dest/.claude/agents/
-rsync -havP --stats source/.claude/settings.json dest/.claude/
+rsync -havP --stats source/dot-claude/commands/ dest/dot-claude/commands/
+rsync -havP --stats source/dot-claude/agents/ dest/dot-claude/agents/
+rsync -havP --stats source/dot-claude/settings.json dest/dot-claude/
 
 # 2. Copy and adapt scripts
 mkdir -p dest/hack
@@ -190,7 +190,7 @@ rsync -havP --stats source/hack/*.sh dest/hack/
 chmod +x "dest/hack/"*.sh
 
 # 3. Find what needs adaptation
-cd dest/.claude/commands
+cd dest/dot-claude/commands
 grep -l "humanlayer\|npx\|linear" *.md > /tmp/adapt_list.txt
 cat /tmp/adapt_list.txt
 ```
@@ -240,8 +240,8 @@ REPO_ROOT=$(cd "$SWD/.." && pwd)
 **Time**: 1–3 hours (depends on complexity of referenced tools)
 
 ### Phase 4+: Customization & Integration (Ongoing)
-- Add your own commands to `.claude/commands/`
-- Add team-specific agents to `.claude/agents/`
+- Add your own commands to `dot-claude/commands/`
+- Add team-specific agents to `dot-claude/agents/`
 - Add custom scripts to `hack/`
 - Update scripts as your project needs evolve
 
@@ -253,7 +253,7 @@ After completing phases 1–3:
 
 ```
 your-repo/
-├── .claude/
+├── dot-claude/
 │   ├── settings.json           (from source repo)
 │   ├── commands/               (from source repo)
 │   │   ├── *.md                (generic: copied as-is)
@@ -285,14 +285,14 @@ SOURCE_REPO="__submodules__/humanlayer/humanlayer"
 DEST_REPO="."
 
 # Copy all core files
-rsync -havP --stats "$SOURCE_REPO/.claude/" "$DEST_REPO/.claude/"
+rsync -havP --stats "$SOURCE_REPO/dot-claude/" "$DEST_REPO/dot-claude/"
 mkdir -p "$DEST_REPO/hack"
 rsync -havP --stats "$SOURCE_REPO/hack/" "$DEST_REPO/hack/"
 chmod +x "$DEST_REPO/hack/"*.sh
 
 # Identify what needs adaptation
 echo "=== Files needing adaptation ==="
-cd "$DEST_REPO/.claude/commands"
+cd "$DEST_REPO/dot-claude/commands"
 grep -l "humanlayer\|npx\|linear\|hack/" *.md 2>/dev/null | sort
 cd - > /dev/null
 ```
@@ -307,7 +307,7 @@ cd /tmp
 /path/to/your-repo/hack/create_worktree.sh TEST-001 test-branch
 
 # Test: Do copied files reference external tools?
-cd your-repo/.claude/commands
+cd your-repo/dot-claude/commands
 grep -E "humanlayer|npx|linear.app" *.md | head -10
 ```
 
@@ -482,7 +482,7 @@ echo "Working in: $REPO_ROOT"
 
 ## 10. Settings & Customization
 
-### `.claude/settings.json`
+### `dot-claude/settings.json`
 This file controls Claude Code behavior. Customize as needed:
 
 ```json
@@ -519,11 +519,11 @@ Copy from source repo and adapt to your needs.
 ## 12. Success Metrics
 
 After completing the plan:
-- [ ] All `.claude/commands/` files copied to your repo
-- [ ] All `.claude/agents/` files copied to your repo
+- [ ] All `dot-claude/commands/` files copied to your repo
+- [ ] All `dot-claude/agents/` files copied to your repo
 - [ ] All `hack/` scripts copied and made location-independent
-- [ ] `grep -r "humanlayer" .claude/commands/ | wc -l` returns 0 (or only in adapted files)
-- [ ] `grep -r "npx " .claude/commands/ | wc -l` returns 0 (or only in adapted files)
+- [ ] `grep -r "humanlayer" dot-claude/commands/ | wc -l` returns 0 (or only in adapted files)
+- [ ] `grep -r "npx " dot-claude/commands/ | wc -l` returns 0 (or only in adapted files)
 - [ ] Can run any command starting with `/` in Claude Code
 - [ ] Can run `./hack/create_worktree.sh TICKET-001 branch-name` from any directory
 - [ ] No external service dependencies except what your team wants
@@ -535,7 +535,7 @@ After completing the plan:
 ### Keep Commands Fresh
 ```bash
 # Periodically check for improvements in source repo
-cd source-repo/.claude/commands
+cd source-repo/dot-claude/commands
 git log --oneline -n 10 -- .
 
 # Sync generic commands (create_plan, iterate_plan, etc.)
@@ -543,8 +543,8 @@ git log --oneline -n 10 -- .
 ```
 
 ### Extend Your Setup
-- **New commands**: Add to `.claude/commands/`
-- **New agents**: Add to `.claude/agents/`
+- **New commands**: Add to `dot-claude/commands/`
+- **New agents**: Add to `dot-claude/agents/`
 - **New scripts**: Add to `hack/`, apply SWD pattern
 - **Team docs**: Document your adaptations in `docs/`
 

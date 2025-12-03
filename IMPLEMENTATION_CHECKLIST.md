@@ -3,9 +3,9 @@
 ## Phase 1: Foundation ✅ COMPLETE
 
 ### File Copying
-- [x] Copy `.claude/commands/` (27 files)
-- [x] Copy `.claude/agents/` (6 files)
-- [x] Copy `.claude/settings.json`
+- [x] Copy `dot-claude/commands/` (27 files)
+- [x] Copy `dot-claude/agents/` (6 files)
+- [x] Copy `dot-claude/settings.json`
 - [x] Copy `hack/` scripts (10 files)
 - [x] Make scripts executable
 
@@ -54,7 +54,7 @@
 - [x] `create_plan_generic.md` ✓
 - [x] `research_codebase_generic.md` ✓
 - [x] `founder_mode.md` ✓
-- [x] All agents (`.claude/agents/*.md`) ✓
+- [x] All agents (`dot-claude/agents/*.md`) ✓
 
 ### Commands Adapted (HumanLayer References Removed)
 - [x] `create_plan.md` - Removed all HumanLayer references ✓
@@ -91,12 +91,12 @@
 
 ### Currently Available & Tested
 ```
-✅ .claude/commands/ (27 files)
+✅ dot-claude/commands/ (27 files)
    - 9 ready to use (no external dependencies)
    - 14 need minor adaptation
    - 4 can be skipped
 
-✅ .claude/agents/ (6 files)
+✅ dot-claude/agents/ (6 files)
    - All generic and reusable
 
 ✅ hack/ (10 scripts)
@@ -118,10 +118,10 @@
 ### Try These Commands Now (No Adaptation Needed)
 ```bash
 # List all available commands
-ls -1 .claude/commands/
+ls -1 dot-claude/commands/
 
 # View a command
-cat .claude/commands/commit.md
+cat dot-claude/commands/commit.md
 
 # Test a script
 ./hack/cleanup_worktree.sh
@@ -213,18 +213,18 @@ All phases (1-3) have been successfully completed:
 
 ### Files Ready to Use
 ```
-.claude/commands/       21 files (all ready)
-.claude/agents/         6 files (all ready)
+dot-claude/commands/       21 files (all ready)
+dot-claude/agents/         6 files (all ready)
 hack/                  10 scripts (all executable)
-.claude/settings.json  (configured)
+dot-claude/settings.json  (configured)
 docs/handoffs/         [structure for storing handoff documents]
 ```
 
 ### Next Actions
 1. **Customize** `hack/setup_repo.sh` for your actual project
-2. **Review** `.claude/settings.json` and adjust prompts/models if needed
+2. **Review** `dot-claude/settings.json` and adjust prompts/models if needed
 3. **Try** a command: `/implement_plan` or `/research_codebase_generic`
-4. **Add** your own commands/agents as needed to `.claude/commands/` and `.claude/agents/`
+4. **Add** your own commands/agents as needed to `dot-claude/commands/` and `dot-claude/agents/`
 
 ---
 

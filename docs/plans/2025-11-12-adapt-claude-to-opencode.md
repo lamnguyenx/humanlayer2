@@ -1,16 +1,16 @@
-# Adapt .claude/ to .opencode/ Configuration
+# Adapt dot-claude/ to .opencode/ Configuration
 
 ## Overview
 
-Adapt the existing `.claude/` configuration directory to OpenCode's `.opencode/` format, converting agents to subagents and updating all configuration files to match OpenCode's schema and conventions.
+Adapt the existing `dot-claude/` configuration directory to OpenCode's `.opencode/` format, converting agents to subagents and updating all configuration files to match OpenCode's schema and conventions.
 
 **IMPORTANT**: All adapted agents and commands must use the model `opencode/grok-code` (Grok Code Fast 1 via OpenCode Zen). Do not use any other models during this migration.
 
 ## Current State Analysis
 
-The project currently uses Claude-specific configuration in `.claude/` with:
+The project currently uses Claude-specific configuration in `dot-claude/` with:
 - 6 specialized agents in `agents/` directory
-- 21 custom commands in `commands/` directory  
+- 21 custom commands in `commands/` directory
 - Settings in `settings.json` with permissions, MCP config, and environment variables
 
 All functionality needs to be preserved while migrating to OpenCode's format.
@@ -52,9 +52,9 @@ Rename directories to match OpenCode structure and create new location.
 ### Changes Required:
 
 #### 1. Directory Creation
-**Command**: `cp -r .claude .opencode`
+**Command**: `cp -r dot-claude .opencode`
 
-#### 2. Subdirectory Renames  
+#### 2. Subdirectory Renames
 **Commands**:
 ```bash
 cd .opencode
@@ -67,7 +67,7 @@ mv commands command
 #### Automated Verification:
 - [ ] Directory structure matches OpenCode: `.opencode/agent/`, `.opencode/command/`
 - [ ] All files preserved in new locations
-- [ ] `.claude/` directory remains intact as ground truth
+- [ ] `dot-claude/` directory remains intact as ground truth
 - [ ] Git shows additions for `.opencode/`: `git status` shows new files, not renames
 
 #### Manual Verification:
@@ -111,7 +111,7 @@ tools: Read, Grep, Glob, LS
 model: sonnet
 ---
 
-# After  
+# After
 ---
 description: Analyzes codebase implementation details...
 mode: subagent
@@ -212,7 +212,7 @@ To OpenCode format:
   "permission": {
     "bash": {
       "./hack/spec_metadata.sh": "allow",
-      "hack/spec_metadata.sh": "allow", 
+      "hack/spec_metadata.sh": "allow",
       "bash hack/spec_metadata.sh": "allow"
     }
   },

@@ -5,9 +5,9 @@
 ## Status
 
 ### ✅ Phase 1 Complete - Files Copied
-- **28 commands** → `.claude/commands/`
-- **7 agents** → `.claude/agents/`
-- **1 settings file** → `.claude/settings.json`
+- **28 commands** → `dot-claude/commands/`
+- **7 agents** → `dot-claude/agents/`
+- **1 settings file** → `dot-claude/settings.json`
 - **10 scripts** → `hack/`
 - **Scripts made executable**
 
@@ -103,7 +103,7 @@
 1. **For `humanlayer` CLI references**: Since you don't have Node.js tooling, either:
    - Remove references (use manual Claude Code)
    - Create wrapper scripts in `hack/`
-   
+
 2. **For Linear.app references**: Either:
    - Replace with GitHub Issues variant
    - Use web search instead

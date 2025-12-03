@@ -1,6 +1,6 @@
 # Phase 3 Complete: Full Command Adaptation
 
-**Date**: 2025-01-10  
+**Date**: 2025-01-10
 **Status**: ✅ ALL PHASES COMPLETE (1-3)
 
 ## Summary
@@ -69,10 +69,10 @@ Successfully completed HumanLayer reuse plan Phases 1-3. The repository now cont
 
 ### Files Ready to Use
 ```
-.claude/commands/       19 files (all adapted, no external dependencies)
-.claude/agents/         6 files (all generic, reusable)
+dot-claude/commands/       19 files (all adapted, no external dependencies)
+dot-claude/agents/         6 files (all generic, reusable)
 hack/                  10 scripts (all executable, location-independent)
-.claude/settings.json  (configured)
+dot-claude/settings.json  (configured)
 ```
 
 ### Key Features
@@ -94,7 +94,7 @@ These can be recreated if needed for your workflow.
 
 ### 1. Review Settings
 ```bash
-cat .claude/settings.json
+cat dot-claude/settings.json
 ```
 
 ### 2. Try a Command
@@ -116,8 +116,8 @@ cat .claude/settings.json
 ```
 
 ### 4. Customize
-- Edit `.claude/commands/` for project-specific workflows
-- Edit `.claude/agents/` to add custom research prompts
+- Edit `dot-claude/commands/` for project-specific workflows
+- Edit `dot-claude/agents/` to add custom research prompts
 - Edit `hack/setup_repo.sh` for your build commands
 
 ## Documentation
@@ -131,14 +131,14 @@ cat .claude/settings.json
 
 ### Deleted
 ```
-.claude/commands/oneshot.md
-.claude/commands/oneshot_plan.md
-.claude/commands/create_handoff.md
-.claude/commands/resume_handoff.md
-.claude/commands/ralph_impl.md
-.claude/commands/ralph_plan.md
-.claude/commands/ralph_research.md
-.claude/commands/linear.md
+dot-claude/commands/oneshot.md
+dot-claude/commands/oneshot_plan.md
+dot-claude/commands/create_handoff.md
+dot-claude/commands/resume_handoff.md
+dot-claude/commands/ralph_impl.md
+dot-claude/commands/ralph_plan.md
+dot-claude/commands/ralph_research.md
+dot-claude/commands/linear.md
 ```
 
 ### Modified
@@ -147,7 +147,7 @@ hack/create_worktree.sh         - Added SWD pattern
 hack/cleanup_worktree.sh        - Added SWD pattern
 hack/setup_repo.sh              - Added SWD pattern, converted to template
 
-.claude/commands/create_plan.md  - Removed all HumanLayer references
+dot-claude/commands/create_plan.md  - Removed all HumanLayer references
 ... (11 more command files adapted)
 ```
 
@@ -166,10 +166,10 @@ hack/setup_repo.sh              - Added SWD pattern, converted to template
 ## Next Steps
 
 1. **Customize `hack/setup_repo.sh`** for your project's actual build commands
-2. **Review `.claude/settings.json`** and adjust model preferences if needed
+2. **Review `dot-claude/settings.json`** and adjust model preferences if needed
 3. **Test commands in Claude Code** to ensure they work for your workflow
-4. **Add custom commands** to `.claude/commands/` as needed
-5. **Extend agents** in `.claude/agents/` for project-specific research
+4. **Add custom commands** to `dot-claude/commands/` as needed
+5. **Extend agents** in `dot-claude/agents/` for project-specific research
 
 ## Notes
 

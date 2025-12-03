@@ -7,9 +7,9 @@
 
 **Completed Tasks**:
 ```bash
-✅ Copied 28 command files (.claude/commands/)
-✅ Copied 7 agent files (.claude/agents/)
-✅ Copied 1 settings file (.claude/settings.json)
+✅ Copied 28 command files (dot-claude/commands/)
+✅ Copied 7 agent files (dot-claude/agents/)
+✅ Copied 1 settings file (dot-claude/settings.json)
 ✅ Copied 10 shell scripts (hack/)
 ✅ Made all scripts executable (chmod +x)
 ✅ Identified files requiring adaptation
@@ -33,12 +33,12 @@
 ✅ Updated create_worktree.sh
   - Added: SWD=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
   - Removed: HumanLayer thoughts init logic
-  
+
 ✅ Updated cleanup_worktree.sh
   - Added: SWD pattern for location independence
   - Changed: WORKTREE_BASE_DIR to use $HOME/wt/$(repo_name)
   - Removed: HumanLayer thoughts cleanup logic
-  
+
 ✅ Tested: Scripts work from any directory
 ```
 
@@ -61,7 +61,7 @@ WORKTREE_BASE="${WORKTREE_BASE:-$HOME/wt/$(basename "$REPO_ROOT")}"
 ## Current State
 
 ### What's Working Now
-- ✅ All `.claude/` commands and agents copied
+- ✅ All `dot-claude/` commands and agents copied
 - ✅ All scripts copied and made executable
 - ✅ Script SWD pattern applied to key files
 - ✅ Can run: `./hack/cleanup_worktree.sh` from any directory
@@ -70,7 +70,7 @@ WORKTREE_BASE="${WORKTREE_BASE:-$HOME/wt/$(basename "$REPO_ROOT")}"
 ### What's Ready but Needs Decisions
 **14 command files** have external dependencies (HumanLayer CLI, Linear.app):
 - 14 files reference `humanlayer` CLI tool
-- 8 files reference `linear.app` 
+- 8 files reference `linear.app`
 - 1 file uses `npx humanlayer launch`
 
 **Decisions Made**:
@@ -80,7 +80,7 @@ WORKTREE_BASE="${WORKTREE_BASE:-$HOME/wt/$(basename "$REPO_ROOT")}"
 
 ### Files Ready to Use Now (No Adaptation Needed)
 ```
-.claude/commands/
+dot-claude/commands/
   ├─ commit.md ✅
   ├─ ci_commit.md ✅
   ├─ ci_describe_pr.md (minor HumanLayer refs only)
@@ -93,7 +93,7 @@ WORKTREE_BASE="${WORKTREE_BASE:-$HOME/wt/$(basename "$REPO_ROOT")}"
   ├─ create_handoff.md ✅ (adapted for git)
   ├─ resume_handoff.md ✅ (adapted for git)
 
-.claude/agents/
+dot-claude/agents/
   ├─ codebase-analyzer.md ✅
   ├─ codebase-locator.md ✅
   ├─ codebase-pattern-finder.md ✅
@@ -137,10 +137,10 @@ The handoff system has been adapted to work with git-based storage:
 ### Test the Setup
 ```bash
 # List available commands
-ls .claude/commands/
+ls dot-claude/commands/
 
 # List available agents
-ls .claude/agents/
+ls dot-claude/agents/
 
 # Test a script
 ./hack/cleanup_worktree.sh
@@ -149,10 +149,10 @@ ls .claude/agents/
 ### Explore Command Files
 ```bash
 # See which commands are ready to use
-grep -L "humanlayer\|linear\|npx" .claude/commands/*.md
+grep -L "humanlayer\|linear\|npx" dot-claude/commands/*.md
 
 # See which need adaptation
-grep -l "humanlayer\|linear\|npx" .claude/commands/*.md
+grep -l "humanlayer\|linear\|npx" dot-claude/commands/*.md
 ```
 
 ---
@@ -169,8 +169,8 @@ See **ADAPTATIONS.md** for:
 
 ## Success Criteria (Phases 1-3 Complete)
 
-- [x] All `.claude/commands/` files copied and adapted (21 total)
-- [x] All `.claude/agents/` files copied (6 total)
+- [x] All `dot-claude/commands/` files copied and adapted (21 total)
+- [x] All `dot-claude/agents/` files copied (6 total)
 - [x] All `hack/` scripts copied and made executable
 - [x] SWD pattern applied to key scripts
 - [x] Scripts test successfully from any directory

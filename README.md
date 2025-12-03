@@ -6,8 +6,8 @@ A repository for selectively reusing HumanLayer's Claude Code workflow component
 
 This repo extracts and adapts reusable parts from the HumanLayer submodule, focusing on:
 
-- **Claude Code commands** (`.claude/commands/`) - Generic prompts and workflows
-- **Agent definitions** (`.claude/agents/`) - Reusable analysis and research agents  
+- **Claude Code commands** (`dot-claude/commands/`) - Generic prompts and workflows
+- **Agent definitions** (`dot-claude/agents/`) - Reusable analysis and research agents
 - **Utility scripts** (`hack/`) - Location-independent shell scripts for git worktrees, setup, etc.
 
 The goal is to provide a clean, dependency-free starting point for integrating Claude Code workflows into any project, without the full HumanLayer stack.
@@ -16,15 +16,15 @@ The goal is to provide a clean, dependency-free starting point for integrating C
 
 Based on the [REUSE_PLAN.md](REUSE_PLAN.md):
 
-- **`.claude/commands/`**: Copied command files, with adaptations to remove HumanLayer-specific dependencies (e.g., replacing `npx humanlayer` with manual Claude Code instructions)
-- **`.claude/agents/`**: All agent definitions (pure prompts, no external deps)
+- **`dot-claude/commands/`**: Copied command files, with adaptations to remove HumanLayer-specific dependencies (e.g., replacing `npx humanlayer` with manual Claude Code instructions)
+- **`dot-claude/agents/`**: All agent definitions (pure prompts, no external deps)
 - **`hack/`**: Adapted shell scripts using the SWD pattern for location-independence
 - **`REUSE_PLAN.md`**: Detailed documentation on the extraction and adaptation process
 
 ## Usage
 
 1. **Clone this repo** as a submodule or copy into your project
-2. **Copy the `.claude/` directory** to your target repo
+2. **Copy the `dot-claude/` directory** to your target repo
 3. **Copy `hack/` scripts** and make them executable (`chmod +x hack/*.sh`)
 4. **Adapt as needed** - see REUSE_PLAN.md for common patterns
 
@@ -32,7 +32,7 @@ Based on the [REUSE_PLAN.md](REUSE_PLAN.md):
 
 ```bash
 # Copy to your project
-cp -r .claude/ /path/to/your-repo/
+cp -r dot-claude/ /path/to/your-repo/
 cp -r hack/ /path/to/your-repo/
 chmod +x /path/to/your-repo/hack/*.sh
 
@@ -50,7 +50,7 @@ cd /tmp && /path/to/your-repo/hack/create_worktree.sh TEST-001 test-branch
 
 ```
 humanlayer2/
-├── .claude/
+├── dot-claude/
 │   ├── commands/     # Adapted Claude Code commands
 │   ├── agents/       # Reusable agent prompts
 │   └── settings.json # Claude Code config

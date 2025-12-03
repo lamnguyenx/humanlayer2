@@ -26,7 +26,7 @@ When invoked with a parameter like `gh_username:branchName`:
    - Create worktree: `git worktree add -b BRANCHNAME ~/wt/humanlayer/SHORT_NAME USERNAME/BRANCHNAME`
 
 4. **Configure the worktree**:
-   - Copy Claude settings: `cp .claude/settings.local.json WORKTREE/.claude/`
+   - Copy Claude settings: `cp dot-claude/settings.local.json WORKTREE/dot-claude/`
    - Run setup: `make -C WORKTREE setup`
 
 ## Error Handling
