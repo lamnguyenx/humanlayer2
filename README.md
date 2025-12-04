@@ -1,6 +1,6 @@
 # humanlayer2
 
-A repository for selectively reusing HumanLayer's Claude Code workflow components, adapted for general use in other projects.
+> **Summary**: A repository extracting reusable Claude Code workflow components from HumanLayer, providing dependency-free prompts and scripts for general project integration.
 
 ## Purpose
 
