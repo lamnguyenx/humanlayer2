@@ -1,0 +1,41 @@
+sequenceDiagram
+  participant User
+  participant Primary Agent
+  participant Monitor Subagent
+  participant Program
+  participant LogStream
+
+  User->>Primary Agent: Debug blocking program with monitoring
+  Primary Agent->>Monitor Subagent: Spawn with hang detection rules
+
+  activate Monitor Subagent
+
+  Monitor Subagent->>Program: Start execution in background
+  activate Program
+
+  par Program execution and monitoring
+      Program->>LogStream: Write continuous logs during execution
+
+  and Monitor Subagent watches
+      loop Continuous monitoring
+          Monitor Subagent->>LogStream: Tail/read recent logs
+          Monitor Subagent->>Monitor Subagent: Check hang conditions<br/>(timeout, error patterns, etc.)
+
+          alt Hang conditions met
+              Monitor Subagent->>Program: Kill/Terminate (SIGTERM/SIGKILL)
+              Monitor Subagent->>Primary Agent: Report hang detected + logs
+          else Continue monitoring
+              Monitor Subagent->>Monitor Subagent: Wait for next check interval
+          end
+      end
+
+      alt Program completed normally
+          Program->>Monitor Subagent: Exit with status code
+          Monitor Subagent->>Primary Agent: Report normal completion + full logs
+      end
+  end
+
+  deactivate Program
+  deactivate Monitor Subagent
+
+  Primary Agent->>User: Return debug results + comprehensive logs
