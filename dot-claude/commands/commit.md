@@ -16,7 +16,7 @@ You are tasked with creating git commits for the changes made during this sessio
 
 2. **Plan your commit(s):**
    - Identify which files belong together
-   - Draft commit messages in sentence-cased
+   - Draft commit messages following the structure below
    - Use imperative mood in commit messages
    - Focus on why the changes were made, not just what
 
@@ -37,6 +37,37 @@ You are tasked with creating git commits for the changes made during this sessio
    - Use `git add` with specific files (never use `-A` or `.`)
    - Create commits with your planned messages
    - Show the result with `git log --oneline -n [number]`
+
+## Commit Message Structure:
+
+### Title (First Line):
+- Use sentence case
+- Imperative mood (e.g., "Add feature" not "Added feature")
+- Keep concise and descriptive
+
+### Sub-message (Body):
+When a commit needs additional context, write sub-messages that are:
+
+- **Concise summaries**: Brief bullet-pointed key insights, avoid lengthy paragraphs
+- **Focus on decisions and details**: Emphasize architectural choices and technical implementations
+  - Example: "migrated to pwd-based color generation using MD5 hash"
+  - Example: "switched from REST to GraphQL for better data fetching control"
+- **Minimal file listings**: Only mention file modifications when essential for context
+  - Avoid exhaustive lists of every file touched
+  - Focus on WHY changes were made, not just WHERE
+- **Action-oriented language**: Highlight what changed and the reasoning behind it
+  - Good: "Refactor authentication to support OAuth2 providers"
+  - Poor: "Updated auth.js, login.js, and config.js"
+
+### Example Format:
+```
+Add user authentication system
+
+- Implement JWT-based authentication for API security
+- Integrate bcrypt for password hashing (10 rounds)
+- Add refresh token rotation to prevent token theft
+- Configure session timeout at 24 hours for better UX
+```
 
 ## Important:
 - **NEVER add ANY AI/LLM attribution or co-author information**
