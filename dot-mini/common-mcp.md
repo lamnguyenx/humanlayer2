@@ -1,0 +1,1 @@
+Please use context7 and sequetial-thinking (mcp servers)

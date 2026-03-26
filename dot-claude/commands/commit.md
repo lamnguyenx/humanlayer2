@@ -44,9 +44,10 @@ You are tasked with creating git commits for the changes made during this sessio
 - Use sentence case
 - Imperative mood (e.g., "Add feature" not "Added feature")
 - Keep concise and descriptive
+- **Always use a single `-m` flag for the title**
 
-### Sub-message (Body):
-When a commit needs additional context, write sub-messages that are:
+### Sub-message (Body) - Optional:
+Add a sub-message **only when additional context is needed**. When included, the sub-message should be:
 
 - **Concise summaries**: Brief bullet-pointed key insights, avoid lengthy paragraphs
 - **Focus on decisions and details**: Emphasize architectural choices and technical implementations
@@ -59,7 +60,28 @@ When a commit needs additional context, write sub-messages that are:
   - Good: "Refactor authentication to support OAuth2 providers"
   - Poor: "Updated auth.js, login.js, and config.js"
 
-### Example Format:
+### Formatting Rules:
+
+**Simple commit (no sub-message needed):**
+```bash
+git commit -m "Add user authentication system"
+```
+
+**Commit with sub-message (when context is needed):**
+```bash
+git commit -m "Add user authentication system" -m "- Implement JWT-based authentication for API security
+- Integrate bcrypt for password hashing (10 rounds)
+- Add refresh token rotation to prevent token theft
+- Configure session timeout at 24 hours for better UX"
+```
+
+**IMPORTANT:**
+- Use **maximum 2 `-m` flags**: one for title, one for body (if needed)
+- **DO NOT** use multiple `-m` flags for each line
+- Include newlines within the second `-m` flag for multi-line bodies
+- The sub-message is optional - only add it when the commit needs explanation
+
+### Example Result:
 ```
 Add user authentication system
 
@@ -82,3 +104,4 @@ Add user authentication system
 - Group related changes together
 - Keep commits focused and atomic when possible
 - The user trusts your judgment - they asked you to commit
+- Not every commit needs a sub-message - keep it simple when the title is sufficient
