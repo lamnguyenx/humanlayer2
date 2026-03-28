@@ -21,11 +21,12 @@
     - [6. stopWithTask="false"](#6-stopwithtaskfalse)
     - [7. onTaskRemoved() Recovery Handler](#7-ontaskremoved-recovery-handler)
     - [8. BOOT\_COMPLETED Receiver](#8-boot_completed-receiver)
-    - [9. Watchdog / Health Check (Dual Strategy)](#9-watchdog--health-check-dual-strategy)
+    - [9. Service Self-Initialization Pattern (Critical)](#9-service-self-initialization-pattern-critical)
+    - [10. Watchdog / Health Check (Dual Strategy)](#10-watchdog--health-check-dual-strategy)
       - [Strategy A: WorkManager Watchdog (Preferred)](#strategy-a-workmanager-watchdog-preferred)
       - [Strategy B: AlarmManager Watchdog (Supplementary)](#strategy-b-alarmmanager-watchdog-supplementary)
-    - [10. Wi-Fi Lock (Network Services Only)](#10-wi-fi-lock-network-services-only)
-    - [11. Android 15+ dataSync Timeout Handling](#11-android-15-datasync-timeout-handling)
+    - [11. Wi-Fi Lock (Network Services Only)](#11-wi-fi-lock-network-services-only)
+    - [12. Android 15+ dataSync Timeout Handling](#12-android-15-datasync-timeout-handling)
   - [Tier 3: OEM-Specific Handling (Critical for Production)](#tier-3-oem-specific-handling-critical-for-production)
     - [Problematic OEMs Reference Table](#problematic-oems-reference-table)
     - [OEM Guidance Implementation](#oem-guidance-implementation)
@@ -492,7 +493,166 @@ class BootReceiver : BroadcastReceiver() {
 
 ---
 
-### 9. Watchdog / Health Check (Dual Strategy)
+### 9. Service Self-Initialization Pattern (Critical)
+
+**What:** The service initializes its core resources (HTTP server, database, TTS engine, etc.) in `onCreate()`, without waiting for the Activity to provide them.
+
+**Why:** A common architectural mistake is designing the Service as a "dumb host" that requires the Activity to initialize resources. After a device reboot, the Service starts via `BOOT_COMPLETED`, but the Activity is never opened. The Service shows a notification (appearing "Running") but doesn't actually work because its resources were never initialized.
+
+**The Anti-Pattern (What NOT to do):**
+
+```kotlin
+// ❌ BROKEN: Service waits for Activity to provide resources
+class BrokenService : Service() {
+    private lateinit var server: HttpServer
+    
+    override fun onCreate() {
+        super.onCreate()
+        startForeground(NOTIFICATION_ID, buildNotification())
+        // Server NOT started here - waiting for Activity!
+    }
+    
+    // Called by MainActivity after bind
+    fun initServer(config: ServerConfig) {
+        server = HttpServer(config)  // Never called on boot!
+        server.start()
+    }
+}
+```
+
+**Result after reboot:** Notification shows "Running", but server isn't listening. Connection refused.
+
+---
+
+**The Correct Pattern (What TO do):**
+
+```kotlin
+// ✅ CORRECT: Service self-initializes, Activity can connect later
+class AutonomousService : Service() {
+    private lateinit var server: HttpServer
+    
+    override fun onCreate() {
+        super.onCreate()
+        startForeground(NOTIFICATION_ID, buildNotification())
+        initializeServer()  // Start immediately, don't wait!
+    }
+    
+    private fun initializeServer() {
+        val config = loadServerConfig()  // From SharedPreferences, assets, etc.
+        server = HttpServer(config)
+        server.start()
+        Log.i(TAG, "Server started on port ${config.port}")
+    }
+    
+    // Optional: Activity can bind and get updates
+    fun getServerStatus(): ServerStatus {
+        return ServerStatus(server.isRunning, server.port)
+    }
+}
+```
+
+**Result after reboot:** Server is actually listening and functional immediately.
+
+---
+
+**Shared Initializer Pattern (For Complex Initialization):**
+
+When initialization logic is complex (loading ML models, copying assets, etc.), extract it to a reusable initializer that both Service and Activity can use:
+
+```kotlin
+// Singleton initializer - no UI dependencies
+object ResourceInitializer {
+    fun initialize(context: Context): ServiceResources? {
+        return try {
+            // Copy assets, load models, create configs
+            val resources = ServiceResources(/* ... */)
+            resources.prepare()
+            resources
+        } catch (e: Exception) {
+            Log.e(TAG, "Initialization failed", e)
+            null
+        }
+    }
+}
+
+// Service calls it in onCreate()
+class AutonomousService : Service() {
+    private var resources: ServiceResources? = null
+    
+    override fun onCreate() {
+        super.onCreate()
+        startForeground(NOTIFICATION_ID, buildNotification())
+        
+        // Initialize in background coroutine
+        CoroutineScope(Dispatchers.IO).launch {
+            resources = ResourceInitializer.initialize(applicationContext)
+            if (resources != null) {
+                startServer()
+            } else {
+                showErrorNotification("Failed to initialize service")
+            }
+        }
+    }
+}
+
+// Activity can also use the same initializer
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Activity can share the Service's instance or initialize its own
+        bindToService()  // Gets reference to already-initialized service
+    }
+}
+```
+
+---
+
+**Widget State Synchronization:**
+
+Widgets must validate actual service state, not just read from SharedPreferences:
+
+```kotlin
+class ServiceWidget : AppWidgetProvider() {
+    override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
+        // Don't trust SharedPreferences after reboot!
+        val isServiceActuallyRunning = isServiceRunning(context)
+        
+        val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        val isServerRunning = if (isServiceActuallyRunning) {
+            prefs.getBoolean(PREF_SERVER_RUNNING, false)
+        } else {
+            false  // Force false when service not running
+        }
+        
+        // Update widget UI...
+    }
+    
+    private fun isServiceRunning(context: Context): Boolean {
+        val manager = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        @Suppress("DEPRECATION")
+        return manager.getRunningServices(Integer.MAX_VALUE)
+            .any { it.service.className == AutonomousService::class.java.name }
+    }
+}
+```
+
+---
+
+**Key Principles:**
+
+| Principle | Rationale |
+|-----------|-----------|
+| **Service must be autonomous** | Background services run independently of UI lifecycle |
+| **Initialize in `onCreate()`** | Don't wait for external triggers that may never come |
+| **Use background coroutines** | Heavy initialization (ML models, asset copying) must not block main thread |
+| **Share initialization logic** | Extract to singleton to avoid code duplication between Service and Activity |
+| **Validate actual state** | Widgets and UIs should check if service is actually running, not trust cached state |
+
+> 📚 **HTTP Server Specifics:** For Javalin/Jetty HTTP server boot-time initialization (port binding, SO_REUSEADDR, retry logic), see [how-to-code-android-persistent-javalin-server.md](how-to-code-android-persistent-javalin-server.md) Section "Boot-Time Self-Initialization".
+
+---
+
+### 10. Watchdog / Health Check (Dual Strategy)
 
 **What:** Periodic checks that restart the service if it has silently died.
 
@@ -591,7 +751,7 @@ override fun onDestroy() {
 
 ---
 
-### 10. Wi-Fi Lock (Network Services Only)
+### 11. Wi-Fi Lock (Network Services Only)
 
 **What:** Prevents the Wi-Fi radio from entering power-saving mode.
 
@@ -645,7 +805,7 @@ private fun releaseWifiLock() {
 
 ---
 
-### 11. Android 15+ dataSync Timeout Handling
+### 12. Android 15+ dataSync Timeout Handling
 
 **What:** Android 15 (API 35) enforces a **6-hour time limit** on `dataSync` foreground services.
 

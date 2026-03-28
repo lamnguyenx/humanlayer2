@@ -26,6 +26,7 @@
     - [Why It Matters](#why-it-matters)
     - [Implementation](#implementation)
     - [Foreground Service + Server Startup (Combined)](#foreground-service--server-startup-combined)
+    - [Boot-Time Self-Initialization (Critical for Auto-Start)](#boot-time-self-initialization-critical-for-auto-start)
   - [Network Stability Considerations](#network-stability-considerations)
     - [Doze Mode \& Wi-Fi Sleep](#doze-mode--wi-fi-sleep)
     - [WifiLock (When Needed)](#wifilock-when-needed)
@@ -582,6 +583,88 @@ private fun startServerSafely() {
 }
 ```
 
+### Boot-Time Self-Initialization (Critical for Auto-Start)
+
+**The Problem:** When using `BOOT_COMPLETED` to auto-start your server after device reboot, a common architectural mistake causes the server to appear "Running" (notification shows) while the actual HTTP server isn't listening.
+
+**Why it happens:** The service starts in `onCreate()`, but waits for `MainActivity` to call a setup method. Since the Activity never opens during boot, the server never actually starts:
+
+```kotlin
+// ❌ WRONG: Server waits for Activity
+override fun onCreate() {
+    super.onCreate()
+    startForeground(NOTIFICATION_ID, buildNotification("Waiting for setup..."))
+    // Javalin NOT started here - waiting for MainActivity!
+}
+```
+
+**The Solution:** Initialize the server immediately in `onCreate()`, without waiting for Activity:
+
+```kotlin
+// ✅ CORRECT: Server self-initializes
+override fun onCreate() {
+    super.onCreate()
+    startForeground(NOTIFICATION_ID, buildNotification("Starting server..."))
+    
+    // Start server immediately - don't wait for Activity
+    startServerSafely()
+}
+```
+
+**For complex initialization** (loading configs, assets, ML models), extract to a shared initializer:
+
+```kotlin
+object ServerInitializer {
+    fun initialize(context: Context): ServerConfig? {
+        // Load config from SharedPreferences, assets, etc.
+        return try {
+            val config = loadConfig(context)
+            config
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to load config", e)
+            null
+        }
+    }
+}
+
+override fun onCreate() {
+    super.onCreate()
+    startForeground(NOTIFICATION_ID, buildNotification())
+    
+    // Initialize and start server immediately
+    serviceScope.launch {
+        val config = ServerInitializer.initialize(applicationContext)
+        if (config != null) {
+            startServer(config)
+        } else {
+            showErrorNotification("Failed to initialize server")
+        }
+    }
+}
+```
+
+**Widget State Sync:** After reboot, widgets should verify actual service state, not trust SharedPreferences:
+
+```kotlin
+override fun onUpdate(context: Context, manager: AppWidgetManager, ids: IntArray) {
+    val isServiceRunning = isServiceActuallyRunning(context) // Check ActivityManager
+    val prefs = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+    
+    // Only trust saved state if service is actually running
+    val isServerRunning = if (isServiceRunning) {
+        prefs.getBoolean(PREF_RUNNING, false)
+    } else {
+        false // Force false if service not running
+    }
+    
+    // Update widget UI with correct state
+}
+```
+
+**Key Takeaway:** Background services must be **autonomous**. Initialize all required resources in `onCreate()`, use background coroutines for heavy setup, and never assume the Activity will be available.
+
+> 📚 **Related:** For complete service persistence patterns (BOOT_COMPLETED receiver, Watchdog, OEM handling), see [how-to-code-android-persistent-background-service-checklist.md](how-to-code-android-persistent-background-service-checklist.md) Section 9: "Service Self-Initialization Pattern".
+
 ---
 
 ## Network Stability Considerations
@@ -683,6 +766,7 @@ Before shipping your Android + Javalin app, verify:
 - [ ] **Foreground Service** with notification (required for API 26+ production).
 - [ ] **`foregroundServiceType`** declared in manifest (required for API 34+).
 - [ ] **WifiLock** acquired if server must be reachable over Wi-Fi (not needed for localhost).
+- [ ] **Boot-time self-initialization** - Server starts in `onCreate()` without waiting for Activity (critical if using `BOOT_COMPLETED` auto-start).
 
 ---
 
