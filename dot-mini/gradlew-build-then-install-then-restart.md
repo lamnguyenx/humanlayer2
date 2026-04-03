@@ -1,0 +1,1 @@
+Run ./gradlew installDebug, then use adb to stop and restart the this package
