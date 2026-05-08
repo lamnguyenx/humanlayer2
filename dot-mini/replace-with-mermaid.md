@@ -1,0 +1,1 @@
+replace diagrams with mermaid if it's appropriate

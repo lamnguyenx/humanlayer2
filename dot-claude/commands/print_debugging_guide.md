@@ -58,6 +58,7 @@ I'm encountering [ERROR/ISSUE] in my application. Please propose and show code c
 - Use structured logging when possible (JSON or key-value pairs)
 - Add contextual tags: component name, operation type, correlation ID
 - Make logs grep-able and searchable
+- **Use a [PRINT_DEBUGGING] tag in log messages to easily identify and remove debug prints later**
 
 ## Context to provide:
 

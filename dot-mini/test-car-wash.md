@@ -1,0 +1,1 @@
+I want to wash my car at the car wash. The car wash is 50m from my house. should I walk or drive there?
