@@ -1,0 +1,1 @@
+Read drawio style reference here: /Users/lamnt45/git/drawio-mcp/shared/style-reference.md (reference only, dont edit this)
