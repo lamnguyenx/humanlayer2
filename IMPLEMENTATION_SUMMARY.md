@@ -3,9 +3,11 @@
 ## Completion Status: Phases 1-2 ✅
 
 ### Phase 1: Foundation (Day 1) ✅
+
 **Objective**: Get basic commands working immediately
 
 **Completed Tasks**:
+
 ```bash
 ✅ Copied 28 command files (dot-claude/commands/)
 ✅ Copied 7 agent files (dot-claude/agents/)
@@ -16,6 +18,7 @@
 ```
 
 **Files Copied**:
+
 - Commands: `commit.md`, `create_plan*.md`, `debug.md`, `iterate_plan.md`, `linear.md`, `research_codebase*.md`, `validate_plan.md`, and more
 - Agents: `codebase-analyzer.md`, `codebase-locator.md`, `codebase-pattern-finder.md`, `web-search-researcher.md`, and more
 - Scripts: `create_worktree.sh`, `cleanup_worktree.sh`, `run_silent.sh`, `port-utils.sh`, and more
@@ -25,9 +28,11 @@
 ---
 
 ### Phase 2: Script Adaptation ✅
+
 **Objective**: Make scripts location-independent
 
 **Completed Tasks**:
+
 ```bash
 ✅ Applied SWD (Script Working Directory) pattern
 ✅ Updated create_worktree.sh
@@ -43,6 +48,7 @@
 ```
 
 **Key Adaptation**:
+
 ```bash
 # Before (hardcoded):
 REPO_ROOT="/home/user/humanlayer"
@@ -61,6 +67,7 @@ WORKTREE_BASE="${WORKTREE_BASE:-$HOME/wt/$(basename "$REPO_ROOT")}"
 ## Current State
 
 ### What's Working Now
+
 - ✅ All `dot-claude/` commands and agents copied
 - ✅ All scripts copied and made executable
 - ✅ Script SWD pattern applied to key files
@@ -68,17 +75,21 @@ WORKTREE_BASE="${WORKTREE_BASE:-$HOME/wt/$(basename "$REPO_ROOT")}"
 - ✅ No external service dependencies for core scripts
 
 ### What's Ready but Needs Decisions
+
 **14 command files** have external dependencies (HumanLayer CLI, Linear.app):
+
 - 14 files reference `humanlayer` CLI tool
 - 8 files reference `linear.app`
 - 1 file uses `npx humanlayer launch`
 
 **Decisions Made**:
+
 1. **Handoff system** → ADAPTED (git-based, stored in `docs/handoffs/`)
 2. **HumanLayer CLI references** → STRIP (remove from commands)
 3. **Linear.app references** → SKIP (use web search instead)
 
 ### Files Ready to Use Now (No Adaptation Needed)
+
 ```
 dot-claude/commands/
   ├─ commit.md ✅
@@ -120,12 +131,14 @@ docs/handoffs/
 The handoff system has been adapted to work with git-based storage:
 
 **Key Changes**:
+
 - `create_handoff.md`: Now saves handoffs to `docs/handoffs/[TICKET]/YYYY-MM-DD_HH-MM-SS_description.md`
 - `resume_handoff.md`: Reads handoffs from git repo, supports both file paths and ticket numbers
 - Handoff documents are committed to git (no external sync needed)
 - Full YAML frontmatter for metadata tracking
 
 **How to Use**:
+
 1. During a session: `/create_handoff` → saves to `docs/handoffs/`
 2. In new session: `/resume_handoff docs/handoffs/ISSUE-123/...` or `/resume_handoff ISSUE-123`
 3. Commit: `git add docs/handoffs/ && git commit -m "docs: handoff"`
@@ -135,6 +148,7 @@ The handoff system has been adapted to work with git-based storage:
 ## Quick Actions to Try Now
 
 ### Test the Setup
+
 ```bash
 # List available commands
 ls dot-claude/commands/
@@ -147,6 +161,7 @@ ls dot-claude/agents/
 ```
 
 ### Explore Command Files
+
 ```bash
 # See which commands are ready to use
 grep -L "humanlayer\|linear\|npx" dot-claude/commands/*.md
@@ -160,6 +175,7 @@ grep -l "humanlayer\|linear\|npx" dot-claude/commands/*.md
 ## Files Reference
 
 See **ADAPTATIONS.md** for:
+
 - Detailed list of what needs adaptation
 - Specific files and line references
 - Recommended approach for each category

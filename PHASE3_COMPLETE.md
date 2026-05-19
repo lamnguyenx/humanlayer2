@@ -10,6 +10,7 @@ Successfully completed HumanLayer reuse plan Phases 1-3. The repository now cont
 ## What Was Done
 
 ### Phase 1: Foundation (Files Copied) ✅
+
 - Copied 28 commands from HumanLayer
 - Copied 6 agents from HumanLayer
 - Copied 1 settings file
@@ -17,6 +18,7 @@ Successfully completed HumanLayer reuse plan Phases 1-3. The repository now cont
 - All scripts made executable
 
 ### Phase 2: Script Adaptation (Location-Independent) ✅
+
 - Applied SWD pattern to `create_worktree.sh`
 - Applied SWD pattern to `cleanup_worktree.sh`
 - Applied SWD pattern to `setup_repo.sh`
@@ -26,6 +28,7 @@ Successfully completed HumanLayer reuse plan Phases 1-3. The repository now cont
 ### Phase 3: Command Adaptation (Clean, Portable Set) ✅
 
 **Decisions Made:**
+
 - HumanLayer CLI References → **STRIP** (remove tool calls, keep structures)
 - Linear.app Integration → **SKIP** (no direct replacement)
 - Oneshot & Handoff Workflows → **SKIP** (HumanLayer-specific)
@@ -33,6 +36,7 @@ Successfully completed HumanLayer reuse plan Phases 1-3. The repository now cont
 **Actions Taken:**
 
 **Deleted (9 files - HumanLayer-specific):**
+
 - `oneshot.md` - Requires npx humanlayer
 - `oneshot_plan.md` - HumanLayer workflow
 - `create_handoff.md` - Handoff system
@@ -43,6 +47,7 @@ Successfully completed HumanLayer reuse plan Phases 1-3. The repository now cont
 - `linear.md` - Linear.app specific
 
 **Adapted (11 files - removed tool references):**
+
 - `create_plan.md` - Removed tool calls
 - `create_plan_generic.md` - Removed tool calls
 - `create_plan_nt.md` - Removed tool calls
@@ -58,6 +63,7 @@ Successfully completed HumanLayer reuse plan Phases 1-3. The repository now cont
 - `local_review.md` - Replaced sync with docs
 
 **Unchanged (8 files - already generic):**
+
 - `commit.md`
 - `ci_commit.md`
 - `implement_plan.md`
@@ -68,6 +74,7 @@ Successfully completed HumanLayer reuse plan Phases 1-3. The repository now cont
 ## Result
 
 ### Files Ready to Use
+
 ```
 dot-claude/commands/       19 files (all adapted, no external dependencies)
 dot-claude/agents/         6 files (all generic, reusable)
@@ -76,6 +83,7 @@ dot-claude/settings.json  (configured)
 ```
 
 ### Key Features
+
 - ✅ No external tool dependencies (pure Claude Code)
 - ✅ Location-independent scripts (SWD pattern)
 - ✅ Generic directory structure (docs/ instead of thoughts/)
@@ -83,6 +91,7 @@ dot-claude/settings.json  (configured)
 - ✅ Fully documented adaptation process
 
 ### What's Not Included
+
 - ❌ HumanLayer CLI tools (`humanlayer` command)
 - ❌ Linear.app integration
 - ❌ Handoff/Ralph workflows
@@ -93,11 +102,13 @@ These can be recreated if needed for your workflow.
 ## Quick Start
 
 ### 1. Review Settings
+
 ```bash
 cat dot-claude/settings.json
 ```
 
 ### 2. Try a Command
+
 ```bash
 # In Claude Code, invoke any command:
 /implement_plan
@@ -107,6 +118,7 @@ cat dot-claude/settings.json
 ```
 
 ### 3. Use Scripts
+
 ```bash
 # Create a worktree
 ./hack/create_worktree.sh my-feature main
@@ -116,6 +128,7 @@ cat dot-claude/settings.json
 ```
 
 ### 4. Customize
+
 - Edit `dot-claude/commands/` for project-specific workflows
 - Edit `dot-claude/agents/` to add custom research prompts
 - Edit `hack/setup_repo.sh` for your build commands
@@ -130,6 +143,7 @@ cat dot-claude/settings.json
 ## Files Changed
 
 ### Deleted
+
 ```
 dot-claude/commands/oneshot.md
 dot-claude/commands/oneshot_plan.md
@@ -142,6 +156,7 @@ dot-claude/commands/linear.md
 ```
 
 ### Modified
+
 ```
 hack/create_worktree.sh         - Added SWD pattern
 hack/cleanup_worktree.sh        - Added SWD pattern

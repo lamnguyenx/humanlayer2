@@ -10,7 +10,7 @@
 8. Maintain consistent indentation hierarchy throughout entire chain. **All lines after `\` must be indented** as they're part of the same command scope
 9. For inline scripts (e.g., in `bash -c` or `python3 -c`), keep the script content at indent 0 to avoid whitespace issues. If the script spans multiple lines, ensure no leading spaces unless intentional.
 
-## Example:
+## Example
 
 ```bash
 

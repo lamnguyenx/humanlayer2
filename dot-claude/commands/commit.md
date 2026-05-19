@@ -6,7 +6,7 @@ description: Create git commits with user approval and no AI attribution
 
 You are tasked with creating git commits for the changes made during this session.
 
-## Process:
+## Process
 
 1. **Think about what changed:**
    - Review the conversation history and understand what was accomplished
@@ -38,15 +38,17 @@ You are tasked with creating git commits for the changes made during this sessio
    - Create commits with your planned messages
    - Show the result with `git log --oneline -n [number]`
 
-## Commit Message Structure:
+## Commit Message Structure
 
-### Title (First Line):
+### Title (First Line)
+
 - Use sentence case
 - Imperative mood (e.g., "Add feature" not "Added feature")
 - Keep concise and descriptive
 - **Always use a single `-m` flag for the title**
 
-### Sub-message (Body) - Optional:
+### Sub-message (Body) - Optional
+
 Add a sub-message **only when additional context is needed**. When included, the sub-message should be:
 
 - **Concise summaries**: Brief bullet-pointed key insights, avoid lengthy paragraphs
@@ -60,14 +62,16 @@ Add a sub-message **only when additional context is needed**. When included, the
   - Good: "Refactor authentication to support OAuth2 providers"
   - Poor: "Updated auth.js, login.js, and config.js"
 
-### Formatting Rules:
+### Formatting Rules
 
 **Simple commit (no sub-message needed):**
+
 ```bash
 git commit -m "Add user authentication system"
 ```
 
 **Commit with sub-message (when context is needed):**
+
 ```bash
 git commit -m "Add user authentication system" -m "- Implement JWT-based authentication for API security
 - Integrate bcrypt for password hashing (10 rounds)
@@ -76,12 +80,14 @@ git commit -m "Add user authentication system" -m "- Implement JWT-based authent
 ```
 
 **IMPORTANT:**
+
 - Use **maximum 2 `-m` flags**: one for title, one for body (if needed)
 - **DO NOT** use multiple `-m` flags for each line
 - Include newlines within the second `-m` flag for multi-line bodies
 - The sub-message is optional - only add it when the commit needs explanation
 
-### Example Result:
+### Example Result
+
 ```
 Add user authentication system
 
@@ -91,7 +97,8 @@ Add user authentication system
 - Configure session timeout at 24 hours for better UX
 ```
 
-## Important:
+## Important
+
 - **NEVER add ANY AI/LLM attribution or co-author information**
 - Do not mention: Claude, Cursor, Amp, Kiro, ChatGPT, Copilot, or any other AI tool
 - Commits should be authored solely by the user
@@ -99,7 +106,8 @@ Add user authentication system
 - Do not add "Co-Authored-By" lines for any AI assistant
 - Write commit messages as if the user wrote them personally
 
-## Remember:
+## Remember
+
 - You have the full context of what was done in this session
 - Group related changes together
 - Keep commits focused and atomic when possible

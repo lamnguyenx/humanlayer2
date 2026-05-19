@@ -44,7 +44,7 @@
 
 ---
 
-## Example:
+## Example
 
 ```markdown
 # RULE 1: Start with clear frontmatter and title

@@ -12,7 +12,7 @@
 
 6. **Run black formatter after code changes**. Execute `black <filename>.py` to ensure consistent code formatting across the project.
 
-## Example:
+## Example
 
 ```python
 # RULE 1: Import library aliases for frequently-used subclasses

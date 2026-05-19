@@ -17,6 +17,7 @@ When this command is invoked:
    - Begin the research process
 
 2. **If no parameters provided**, respond with:
+
 ```
 I'll help you create a detailed implementation plan. Let me start by understanding what we're building.
 
@@ -58,18 +59,19 @@ Before asking the user any questions, use specialized agents to research in para
 - Trace data flow and key functions
 - Return detailed explanations with file:line references
 
-3. **Read all files identified by research tasks**:
+1. **Read all files identified by research tasks**:
    - After research tasks complete, read ALL files they identified as relevant
    - Read them FULLY into the main context
    - This ensures you have complete understanding before proceeding
 
-4. **Analyze and verify understanding**:
+2. **Analyze and verify understanding**:
    - Cross-reference the ticket requirements with actual code
    - Identify any discrepancies or misunderstandings
    - Note assumptions that need verification
    - Determine true scope based on codebase reality
 
-5. **Present informed understanding and focused questions**:
+3. **Present informed understanding and focused questions**:
+
    ```
    Based on the ticket and my research of the codebase, I understand we need to [accurate summary].
 
@@ -121,9 +123,10 @@ After getting initial clarifications:
    - Return specific file:line references
    - Find tests and examples
 
-3. **Wait for ALL sub-tasks to complete** before proceeding
+4. **Wait for ALL sub-tasks to complete** before proceeding
 
-4. **Present findings and design options**:
+5. **Present findings and design options**:
+
    ```
    Based on my research, here's what I found:
 
@@ -147,6 +150,7 @@ After getting initial clarifications:
 Once aligned on approach:
 
 1. **Create initial plan outline**:
+
    ```
    Here's my proposed plan structure:
 
@@ -275,6 +279,7 @@ After structure approval:
 ### Step 5: Review and Finalize
 
 1. **Present the draft plan location**:
+
 ```
 I've created the initial implementation plan at:
     `docs/plans/YYYY-MM-DD-description.md`
@@ -286,13 +291,14 @@ Please review it and let me know:
 - Missing edge cases or considerations?
 ```
 
-2. **Iterate based on feedback** - be ready to:
+1. **Iterate based on feedback** - be ready to:
+
 - Add missing phases
 - Adjust technical approach
-    - Clarify success criteria (both automated and manual)
-    - Add/remove scope items
+  - Clarify success criteria (both automated and manual)
+  - Add/remove scope items
 
-3. **Continue refining** until the user is satisfied
+1. **Continue refining** until the user is satisfied
 
 ## Important Guidelines
 
@@ -350,6 +356,7 @@ Please review it and let me know:
    - User acceptance criteria
 
 **Format example:**
+
 ```markdown
 ### Success Criteria:
 
@@ -368,21 +375,24 @@ Please review it and let me know:
 
 ## Common Patterns
 
-### For Database Changes:
+### For Database Changes
+
 - Start with schema/migration
 - Add store methods
 - Update business logic
 - Expose via API
 - Update clients
 
-### For New Features:
+### For New Features
+
 - Research existing patterns first
 - Start with data model
 - Build backend logic
 - Add API endpoints
 - Implement UI last
 
-### For Refactoring:
+### For Refactoring
+
 - Document current behavior
 - Plan incremental changes
 - Maintain backwards compatibility
@@ -413,6 +423,7 @@ When spawning research sub-tasks:
    - Don't accept results that seem incorrect
 
 Example of spawning multiple tasks:
+
 ```python
 # Spawn these tasks concurrently:
 tasks = [

@@ -6,7 +6,7 @@ description: Generate comprehensive PR descriptions following repository templat
 
 You are tasked with generating a comprehensive pull request description following the repository's standard template.
 
-## Steps to follow:
+## Steps to follow
 
 1. **Read the PR description template:**
 
@@ -79,7 +79,8 @@ You are tasked with generating a comprehensive pull request description followin
    - Confirm the update was successful
    - If any verification steps remain unchecked, remind the user to complete them before merging
 
-## Important notes:
+## Important notes
+
 - This command works across different repositories - always read the local template
 - Be thorough but concise - descriptions should be scannable
 - Focus on the "why" as much as the "what"

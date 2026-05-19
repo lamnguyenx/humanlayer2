@@ -9,6 +9,7 @@ You are tasked with validating that an implementation plan was correctly execute
 ## Initial Setup
 
 When invoked:
+
 1. **Determine context** - Are you in an existing conversation or starting fresh?
    - If existing: Review what was implemented in this session
    - If fresh: Need to discover what was done through git and codebase analysis
@@ -18,6 +19,7 @@ When invoked:
    - Otherwise, search recent commits for plan references or ask user
 
 3. **Gather implementation evidence**:
+
    ```bash
    # Check recent commits
    git log --oneline -n 20
@@ -40,6 +42,7 @@ If starting fresh or need more context:
    - Identify key functionality to verify
 
 3. **Spawn parallel research tasks** to discover implementation:
+
    ```
    Task 1 - Verify database changes:
    Research if migration [N] was added and schema changes match plan.
@@ -129,6 +132,7 @@ Create comprehensive validation summary:
 ## Working with Existing Context
 
 If you were part of the implementation:
+
 - Review the conversation history
 - Check your todo list for what was completed
 - Focus validation on work done in this session
@@ -145,6 +149,7 @@ If you were part of the implementation:
 ## Validation Checklist
 
 Always verify:
+
 - [ ] All phases marked complete are actually done
 - [ ] Automated tests pass
 - [ ] Code follows existing patterns
@@ -156,6 +161,7 @@ Always verify:
 ## Relationship to Other Commands
 
 Recommended workflow:
+
 1. `/implement_plan` - Execute the implementation
 2. `/commit` - Create atomic commits for changes
 3. `/validate_plan` - Verify implementation correctness

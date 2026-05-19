@@ -16,11 +16,13 @@ When analyzing Android Studio logcat output, the single letter indicates the log
 ## Logcat Format Structure
 
 **Most common format** (package names disabled):
+
 ```
  [Level]  [Message]
 ```
 
 **Example:**
+
 ```
  D  MainActivity: onCreate() called
  D  NetworkManager: Initializing connection pool
@@ -36,6 +38,7 @@ When analyzing Android Studio logcat output, the single letter indicates the log
 ```
 
 **With package names enabled + "Show repeated package name" disabled:**
+
 ```
 com.example.app1          D  MainActivity: onCreate() called
                           D  NetworkManager: Initializing connection pool
@@ -50,6 +53,7 @@ com.example.app1          E  ImageLoader: Out of memory error
 ```
 
 **With "Show repeated package name" enabled:**
+
 ```
 com.example.app1          D  MainActivity: onCreate() called
 com.example.app1          D  NetworkManager: Initializing connection pool
@@ -71,6 +75,7 @@ com.example.app1          E  ImageLoader: Out of memory error
 4. **D/V** - Detailed debugging info
 
 ## Priority Order
+
 ```
 V < D < I < W < E < A (lowest to highest)
 ```

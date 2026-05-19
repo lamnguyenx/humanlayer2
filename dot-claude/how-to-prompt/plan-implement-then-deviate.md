@@ -1,8 +1,8 @@
 # Keeping Your Docs Alive
+>
 > A practical guide to never having outdated documentation again
 
 ---
-
 
 ## The Problem
 
@@ -37,7 +37,6 @@ flowchart TD
     J --> K[Commit code + docs together]
     K --> L[Done. Docs are accurate. Future-you is grateful.]
 ```
-
 
 ---
 
@@ -210,4 +209,3 @@ spend three months from now trying to figure out why the code doesn't
 match the docs. It's an investment that pays off fast.
 
 ---
-

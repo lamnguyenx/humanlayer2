@@ -3,6 +3,7 @@
 ## Overview
 
 Adopt HumanLayer's proven Claude Code workflow by:
+
 1. **rsync hack scripts** to your repo, adapt them to work from any directory
 2. **Copy dot-claude/commands** as-is (generic, no adaptation needed)
 3. **Replace Node.js-dependent commands with prompts** (oneshot.md, linear.md)
@@ -12,6 +13,7 @@ Adopt HumanLayer's proven Claude Code workflow by:
 ## 1. Hack Scripts: Clone & Adapt
 
 ### Strategy
+
 - `rsync` all scripts from `humanlayer/hack/` to your `./hack/`
 - Adapt scripts to use `SWD=$(realpath "$0")` pattern for working-directory independence
 - Keep only those relevant to your workflow; discard HumanLayer-specific ones
@@ -28,6 +30,7 @@ Adopt HumanLayer's proven Claude Code workflow by:
 | `port-utils.sh` | Port discovery utilities | NO | LOW |
 
 ### Scripts to Skip
+
 - `generate_*_icons.sh` - HumanLayer-specific (Tauri/icon generation)
 - `generate_nightly_icons.py` - HumanLayer-specific
 - `rotate_icon_colors.py` - HumanLayer-specific
@@ -37,12 +40,14 @@ Adopt HumanLayer's proven Claude Code workflow by:
 ### Adaptation Pattern
 
 **Before** (hardcoded paths):
+
 ```bash
 REPO_ROOT="$HOME/humanlayer"
 WORKTREE_BASE="$HOME/wt/humanlayer"
 ```
 
 **After** (script-location-based):
+
 ```bash
 SWD=$(cd "$(dirname "$0")" && pwd)
 REPO_ROOT=$(cd "$SWD/.." && pwd)
@@ -56,6 +61,7 @@ This makes scripts callable from anywhere: `./hack/create_worktree.sh` or `cd /t
 ## 2. `dot-claude/commands/` Files: Copy As-Is
 
 ### Strategy
+
 - **Copy all** command files as a baseline
 - Categorize post-copy: which have external dependencies vs. generic prompts
 - Adapt only those that reference external tools/services
@@ -64,6 +70,7 @@ This makes scripts callable from anywhere: `./hack/create_worktree.sh` or `cd /t
 ### How to Categorize
 
 **Run this to find commands needing adaptation:**
+
 ```bash
 cd your-repo/dot-claude/commands
 
@@ -83,7 +90,9 @@ grep -l "linear\|Linear" *.md
 ### Typical Categories (Examples)
 
 #### Generic & Reusable (Copy Directly)
+
 Commands that are pure prompts with no external dependencies:
+
 - `create_plan*.md` - Planning workflows
 - `iterate_plan*.md` - Iteration workflows
 - `implement_plan.md` - Implementation guidance
@@ -96,6 +105,7 @@ Commands that are pure prompts with no external dependencies:
 - `founder_mode.md` - Founder mode instructions
 
 #### Commands to Adapt or Replace (Common Patterns)
+
 | Pattern | Commands | Solution |
 |---------|----------|----------|
 | `npx humanlayer launch` | oneshot*.md | Replace with Claude Code manual instructions |
@@ -104,11 +114,14 @@ Commands that are pure prompts with no external dependencies:
 | `hack/` script references | create_worktree.md, research_codebase.md | Keep; adapt scripts in Phase 1 |
 
 #### Commands to Skip (Project-Specific)
+
 - Handoff-related files (if not needed)
 - Any file tightly coupled to a specific service/platform
 
 ### Discovery Process
+
 Instead of listing what to copy, **copy everything, then filter**:
+
 ```bash
 # Copy all
 rsync -havP --stats source/dot-claude/commands/ dest/dot-claude/commands/
@@ -126,8 +139,10 @@ grep -h "humanlayer\|npx\|hack/\|linear" *.md | sort | uniq
 ### Commands That Need Replacement
 
 #### `oneshot.md`
+
 **Current**: Uses `npx humanlayer launch --model opus ...`
 **Replacement**: Create Claude Code session manually with prompt at top:
+
 ```
 # Oneshot Plan for [TICKET-ID]
 
@@ -139,8 +154,10 @@ Now execute the plan step-by-step...
 ```
 
 #### `linear.md`
+
 **Current**: Uses HumanLayer's Linear MCP integration
 **Replacement Options**:
+
 1. Use Claude's native web search + manual Linear updates
 2. Adapt to your issue tracker (GitHub Issues, Jira, etc.)
 3. Keep as reference; create variant for your system
@@ -150,11 +167,13 @@ Now execute the plan step-by-step...
 ## 4. `dot-claude/agents/` Files
 
 ### Strategy
+
 - Copy all agent files (they're pure prompt definitions)
 - No code dependencies or external service calls
 - Rename any project-specific ones if needed
 
 ### How to Categorize
+
 ```bash
 ls -1 source/dot-claude/agents/*.md | while read f; do
   basename "$f"
@@ -163,6 +182,7 @@ done
 ```
 
 ### Typical Agents (Examples)
+
 - `*analyzer.md` - Code/doc analysis prompts
 - `*locator.md` - Search and discovery guidance
 - `*researcher.md` - Research and investigation workflows
@@ -175,9 +195,11 @@ done
 ## 5. Phased Rollout
 
 ### Phase 1: Foundation (Day 1)
+
 **Goal**: Get basic commands working immediately
 
 **Tasks**:
+
 ```bash
 # 1. Copy core files
 rsync -havP --stats source/dot-claude/commands/ dest/dot-claude/commands/
@@ -204,9 +226,11 @@ cat /tmp/adapt_list.txt
 **Time**: 30–45 minutes
 
 ### Phase 2: Script Adaptation (Day 2)
+
 **Goal**: Make scripts location-independent
 
 **For each script in `hack/` that runs independently:**
+
 ```bash
 # Add at the top of the script
 SWD=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -225,9 +249,11 @@ REPO_ROOT=$(cd "$SWD/.." && pwd)
 **Time**: 1–2 hours (depends on number of scripts)
 
 ### Phase 3: Command Adaptation (Day 3–4)
+
 **Goal**: Replace external tool references
 
 **For each command file in `/tmp/adapt_list.txt`:**
+
 1. **If it references `npx humanlayer launch`**: Replace with manual Claude Code instruction
 2. **If it references `humanlayer thoughts sync`**: Replace with your workflow (git, file sync, etc.)
 3. **If it references `linear.app`**: Either adapt for your issue tracker or remove
@@ -240,6 +266,7 @@ REPO_ROOT=$(cd "$SWD/.." && pwd)
 **Time**: 1–3 hours (depends on complexity of referenced tools)
 
 ### Phase 4+: Customization & Integration (Ongoing)
+
 - Add your own commands to `dot-claude/commands/`
 - Add team-specific agents to `dot-claude/agents/`
 - Add custom scripts to `hack/`
@@ -279,6 +306,7 @@ your-repo/
 ## 7. Quick-Start Checklist
 
 ### One-Command Setup
+
 ```bash
 # Define source and destination
 SOURCE_REPO="__submodules__/humanlayer/humanlayer"
@@ -298,6 +326,7 @@ cd - > /dev/null
 ```
 
 ### Test Core Functionality
+
 ```bash
 # Test: Can you run commands in Claude Code?
 # (Open Claude Code in your IDE and try: /create_plan)
@@ -322,6 +351,7 @@ grep -E "humanlayer|npx|linear.app" *.md | head -10
 **Solution**: Use `SWD` to make scripts location-independent.
 
 ### Before (Hardcoded)
+
 ```bash
 #!/bin/bash
 REPO_ROOT="$HOME/humanlayer"     # Only works if your repo is here
@@ -329,6 +359,7 @@ WORKTREE_BASE="$HOME/wt/humanlayer"
 ```
 
 ### After (Location-Independent)
+
 ```bash
 #!/bin/bash
 # Script's own directory (works from anywhere)
@@ -342,11 +373,13 @@ WORKTREE_BASE="${WORKTREE_BASE:-$HOME/wt/$(basename "$REPO_ROOT")}"
 ### How to Apply
 
 **Step 1**: Identify hardcoded paths in script
+
 ```bash
 grep -E "^\s*(export\s+)?(REPO|PATH|BASE|DIR|ROOT)" your-script.sh
 ```
 
 **Step 2**: Replace with SWD pattern
+
 ```bash
 # Find and replace pattern
 OLD='REPO_ROOT="$HOME/humanlayer"'
@@ -356,6 +389,7 @@ sed -i "s|$OLD|$NEW|" your-script.sh
 ```
 
 **Step 3**: Test from different directories
+
 ```bash
 cd /tmp && /path/to/your-repo/hack/your-script.sh arg1 arg2
 cd ~/projects && /path/to/your-repo/hack/your-script.sh arg1 arg2
@@ -364,6 +398,7 @@ cd ~/projects && /path/to/your-repo/hack/your-script.sh arg1 arg2
 ### Example: Full Before/After
 
 **Before**:
+
 ```bash
 #!/bin/bash
 REPO_ROOT="/home/user/humanlayer"
@@ -377,6 +412,7 @@ do_something() {
 ```
 
 **After**:
+
 ```bash
 #!/bin/bash
 SWD=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -391,6 +427,7 @@ do_something() {
 ```
 
 **Works from anywhere now:**
+
 ```bash
 /path/to/your-repo/hack/your-script.sh arg1
 /another/path/hack/your-script.sh arg1  # Same script, different location
@@ -401,28 +438,37 @@ do_something() {
 ## 9. Common Adaptation Patterns
 
 ### Pattern 1: `humanlayer thoughts sync`
+
 **Problem**: Syncs docs to HumanLayer's backend (not available in your repo)
 
 **Solutions**:
+
 - **Option A**: Use git (docs stay in repo)
+
   ```bash
   git add .
   git commit -m "docs: update with research"
   git push
   ```
+
 - **Option B**: Rsync to a shared location
+
 ```bash
 rsync -havP --stats ./thoughts/ ~/shared-docs/
 ```
+
 - **Option C**: Remove the step (keep docs local)
+
   ```
   # Edit command file: delete the "sync" instruction
   ```
 
 ### Pattern 2: `hack/spec_metadata.sh` or Similar Helper Scripts
+
 **Problem**: Script references paths specific to another project
 
 **Solution**: Use SWD pattern (see section 8) to make paths relative to script location
+
 ```bash
 #!/bin/bash
 SWD=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -433,19 +479,26 @@ echo "Working in: $REPO_ROOT"
 ```
 
 ### Pattern 3: `npx humanlayer launch` or Similar CLI Tools
+
 **Problem**: Node.js-dependent tool not available in your environment
 
 **Solutions**:
+
 - **Option A**: Remove the CLI call, use Claude Code manually
+
   ```
   # BEFORE: "Run: npx humanlayer launch --model opus '/oneshot_plan TICKET-123'"
   # AFTER: "Open Claude Code and paste this prompt, then execute it"
   ```
+
 - **Option B**: Replace with equivalent tool (if you have one)
+
   ```bash
   my-tool launch --prompt "$(cat ./your_prompt.md)"
   ```
+
 - **Option C**: Create a wrapper script in `hack/`
+
   ```bash
   #!/bin/bash
   # hack/launch.sh - wrapper for your tool
@@ -453,25 +506,33 @@ echo "Working in: $REPO_ROOT"
   ```
 
 ### Pattern 4: Linear, GitHub, Jira, or Other Issue Trackers
+
 **Problem**: Commands reference a specific issue tracker
 
 **Solutions**:
+
 - **Option A**: Create a variant for your tracker
+
   ```
   Copy: linear.md → github.md
   Edit: Replace all Linear API calls with GitHub API calls
   ```
+
 - **Option B**: Keep as reference, use web search instead
+
   ```
   # Let Claude use web search to find / link issues
   # No API integration needed
   ```
+
 - **Option C**: Use manual linking
+
   ```
   # Add step: "Link this plan to TICKET-123 manually"
   ```
 
 ### General Approach
+
 1. **Identify the dependency**: `grep -E "pattern" commands/*.md`
 2. **Choose replacement**: Pick option A, B, or C above
 3. **Edit the file**: Update the command file with your approach
@@ -483,6 +544,7 @@ echo "Working in: $REPO_ROOT"
 ## 10. Settings & Customization
 
 ### `dot-claude/settings.json`
+
 This file controls Claude Code behavior. Customize as needed:
 
 ```json
@@ -496,6 +558,7 @@ This file controls Claude Code behavior. Customize as needed:
 ```
 
 **Common customizations**:
+
 - `instructions`: Add your project-specific guidelines
 - `models`: Choose your preferred Claude models
 - Add your own fields for team-specific settings
@@ -519,6 +582,7 @@ Copy from source repo and adapt to your needs.
 ## 12. Success Metrics
 
 After completing the plan:
+
 - [ ] All `dot-claude/commands/` files copied to your repo
 - [ ] All `dot-claude/agents/` files copied to your repo
 - [ ] All `hack/` scripts copied and made location-independent
@@ -533,6 +597,7 @@ After completing the plan:
 ## 13. Maintenance & Evolution
 
 ### Keep Commands Fresh
+
 ```bash
 # Periodically check for improvements in source repo
 cd source-repo/dot-claude/commands
@@ -543,13 +608,16 @@ git log --oneline -n 10 -- .
 ```
 
 ### Extend Your Setup
+
 - **New commands**: Add to `dot-claude/commands/`
 - **New agents**: Add to `dot-claude/agents/`
 - **New scripts**: Add to `hack/`, apply SWD pattern
 - **Team docs**: Document your adaptations in `docs/`
 
 ### Track Adaptations
+
 Keep a file like `ADAPTATIONS.md`:
+
 ```markdown
 # Adaptations Made
 
@@ -564,4 +632,3 @@ Keep a file like `ADAPTATIONS.md`:
 ## Known Issues
 - None yet
 ```
-

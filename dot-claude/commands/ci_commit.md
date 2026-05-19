@@ -6,7 +6,7 @@ description: Create git commits for session changes with clear, atomic messages
 
 You are tasked with creating git commits for the changes made during this session.
 
-## Process:
+## Process
 
 1. **Think about what changed:**
    - Review the conversation history and understand what was accomplished
@@ -26,9 +26,10 @@ You are tasked with creating git commits for the changes made during this sessio
    - Never commit dummy files, test scripts, or other files which you created or which appear to have been created but which were not part of your changes or directly caused by them (e.g. generated code)
    - Create commits with your planned messages until all of your changes are committed with `git commit -m`
 
-## Remember:
+## Remember
+
 - You have the full context of what was done in this session
 - Group related changes together
 - Keep commits focused and atomic when possible
 - The user trusts your judgment - they asked you to commit
-- **IMPORTANT**: - never stop and ask for feedback from the user. 
+- **IMPORTANT**: - never stop and ask for feedback from the user.

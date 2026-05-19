@@ -1,4 +1,5 @@
 # Android Persistent Background Service
+
 **Status:** Production-ready template for achieving ~70–98% service persistence
 **Target:** Any Android app requiring a persistent background service
 **Applies To:** API 21+ (Android 5.0+), with specific notes for API 26+, 31+, 33+, 34+, 35+
@@ -758,6 +759,7 @@ override fun onDestroy() {
 **Why:** In power-saving mode, Wi-Fi may become unreachable from other devices on the LAN.
 
 **When to use:**
+
 - ✅ HTTP/WebSocket servers accessible over LAN
 - ✅ IoT clients requiring constant Wi-Fi connectivity
 - ❌ Localhost-only services (127.0.0.1)
@@ -825,6 +827,7 @@ override fun onTimeout(startId: Int, fgsType: Int) {
 ```
 
 **Alternatives for API 35+:**
+
 - Use `specialUse` type instead (no timeout, but needs Play Store justification)
 - Use `shortService` for tasks < 3 minutes
 - Stop and restart the service to reset the timer
@@ -1831,6 +1834,7 @@ When submitting your app, you will need to fill out the **Foreground Service Per
 Starting in Android 12 (API 31), apps cannot start foreground services from the background except in specific cases:
 
 **Allowed exemptions:**
+
 - App has a visible activity
 - App has a pending `PendingIntent` from a visible activity
 - System broadcast receivers (`BOOT_COMPLETED`, etc.)

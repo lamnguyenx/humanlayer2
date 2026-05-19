@@ -18,7 +18,7 @@
 
 9. **Follow shell script formatting for RUN commands**. For shell commands within RUN instructions, find the "# How to format a shell script" guide in the file "how-to-write-an-one-example-guide.md" or the markdown file with title "# How to format a shell script" in ~/.snippets, ~/.config/opencode or local AI folders (like dot-claude, .agents..). Find it recursively and follow symlinks. If can't find the it, please wait for my next instruction.
 
-## Example:
+## Example
 
 ```dockerfile
 # RULE 1: Indent commands after WORKDIR to show context

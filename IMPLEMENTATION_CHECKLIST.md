@@ -3,6 +3,7 @@
 ## Phase 1: Foundation ✅ COMPLETE
 
 ### File Copying
+
 - [x] Copy `dot-claude/commands/` (27 files)
 - [x] Copy `dot-claude/agents/` (6 files)
 - [x] Copy `dot-claude/settings.json`
@@ -10,6 +11,7 @@
 - [x] Make scripts executable
 
 ### Inventory & Analysis
+
 - [x] Identify files with external dependencies
 - [x] Locate hardcoded paths in scripts
 - [x] Create ADAPTATIONS.md tracking document
@@ -22,6 +24,7 @@
 ## Phase 2: Script Adaptation ✅ COMPLETE
 
 ### Core Worktree Scripts
+
 - [x] Apply SWD pattern to `create_worktree.sh`
   - Added: SWD=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
   - Removed: HumanLayer thoughts init logic
@@ -32,6 +35,7 @@
 - [x] Test scripts from different directories
 
 ### Script Status
+
 - [x] `create_worktree.sh` - Location-independent ✓
 - [x] `cleanup_worktree.sh` - Location-independent ✓
 - [ ] `setup_repo.sh` - Review for HumanLayer-specific logic
@@ -47,6 +51,7 @@
 ## Phase 3: Command Adaptation ✅ COMPLETE
 
 ### Generic Commands (Ready to Use)
+
 - [x] `commit.md` ✓
 - [x] `ci_commit.md` ✓
 - [x] `implement_plan.md` ✓
@@ -57,6 +62,7 @@
 - [x] All agents (`dot-claude/agents/*.md`) ✓
 
 ### Commands Adapted (HumanLayer References Removed)
+
 - [x] `create_plan.md` - Removed all HumanLayer references ✓
 - [x] `research_codebase.md` - Removed HumanLayer-specific notes ✓
 - [x] `describe_pr.md` - Removed HumanLayer tool references ✓
@@ -70,10 +76,12 @@
 - [x] `local_review.md` - Replaced HumanLayer sync with docs ✓
 
 ### Commands Adapted (Handoff System - Git-Based)
+
 - [x] `create_handoff.md` - Adapted for git-based storage in `docs/handoffs/` ✓
 - [x] `resume_handoff.md` - Adapted to read from git-stored handoffs ✓
 
 ### Commands Deleted (HumanLayer-Specific - No Equivalent)
+
 - [x] `oneshot.md` - Deleted (requires npx humanlayer)
 - [x] `oneshot_plan.md` - Deleted (HumanLayer-specific)
 - [x] `ralph_impl.md` - Deleted (Ralph workflow specific)
@@ -90,6 +98,7 @@
 ## Files Reference
 
 ### Currently Available & Tested
+
 ```
 ✅ dot-claude/commands/ (27 files)
    - 9 ready to use (no external dependencies)
@@ -106,6 +115,7 @@
 ```
 
 ### Documentation Generated
+
 - `REUSE_PLAN.md` - Original plan from HumanLayer
 - `ADAPTATIONS.md` - Detailed adaptation tracking
 - `IMPLEMENTATION_SUMMARY.md` - Quick reference of what's done
@@ -116,6 +126,7 @@
 ## Quick Start
 
 ### Try These Commands Now (No Adaptation Needed)
+
 ```bash
 # List all available commands
 ls -1 dot-claude/commands/
@@ -128,6 +139,7 @@ cat dot-claude/commands/commit.md
 ```
 
 ### Test Case: Create & Clean Worktree
+
 ```bash
 # Create a worktree
 ./hack/create_worktree.sh my-feature main
@@ -144,9 +156,11 @@ git worktree list
 ## Decision Points for Phase 3
 
 ### Decision 1: HumanLayer CLI References
+
 **Commands affected**: 14 files
 
 **Options**:
+
 - **Skip**: Don't use these commands, remove from repo
 - **Strip**: Remove HumanLayer references, keep structure
 - **Adapt**: Replace with equivalent manual workflow
@@ -154,9 +168,11 @@ git worktree list
 **Recommendation**: Strip (remove `humanlayer` tool calls, keep planning structure)
 
 ### Decision 2: Linear.app Integration
+
 **Commands affected**: 8 files
 
 **Options**:
+
 - **Skip**: Don't use Linear integration, remove or ignore
 - **Adapt**: Create GitHub variant if needed
 - **Keep**: Use web search instead of API integration
@@ -164,9 +180,11 @@ git worktree list
 **Recommendation**: Skip Linear-specific commands, use web search instead
 
 ### Decision 3: Oneshot & Handoff Workflows
+
 **Commands affected**: 4 files (`oneshot.md`, `create_handoff.md`, `resume_handoff.md`)
 
 **Options**:
+
 - **Skip**: These are HumanLayer-specific
 - **Adapt**: Recreate for your workflow (complex)
 
@@ -177,17 +195,20 @@ git worktree list
 ## Success Criteria
 
 ### Phase 1 ✅ COMPLETE
+
 - [x] All files copied
 - [x] Scripts executable
 - [x] No errors during copy
 
 ### Phase 2 ✅ COMPLETE
+
 - [x] SWD pattern applied
 - [x] Scripts work from any directory
 - [x] HumanLayer dependencies removed from scripts
 - [x] `setup_repo.sh` adapted to template format
 
 ### Phase 3 ✅ COMPLETE
+
 - [x] Decided on HumanLayer CLI references → STRIP
 - [x] Decided on Linear.app references → SKIP
 - [x] Decided on handoff system → ADAPT (git-based storage)
@@ -204,6 +225,7 @@ git worktree list
 All phases (1-3) have been successfully completed:
 
 ### What You Have Now
+
 - **21 production-ready commands** (HumanLayer-specific removed, handoff system adapted)
 - **6 reusable agents** (codebase analysis, web search, pattern finding)
 - **10 utility scripts** (git worktree management, platform detection)
@@ -212,6 +234,7 @@ All phases (1-3) have been successfully completed:
 - **Git-based handoff system** (stores handoffs in `docs/handoffs/`)
 
 ### Files Ready to Use
+
 ```
 dot-claude/commands/       21 files (all ready)
 dot-claude/agents/         6 files (all ready)
@@ -221,6 +244,7 @@ docs/handoffs/         [structure for storing handoff documents]
 ```
 
 ### Next Actions
+
 1. **Customize** `hack/setup_repo.sh` for your actual project
 2. **Review** `dot-claude/settings.json` and adjust prompts/models if needed
 3. **Try** a command: `/implement_plan` or `/research_codebase_generic`

@@ -5,6 +5,7 @@
 ## Status
 
 ### ✅ Phase 1 Complete - Files Copied
+
 - **28 commands** → `dot-claude/commands/`
 - **7 agents** → `dot-claude/agents/`
 - **1 settings file** → `dot-claude/settings.json`
@@ -12,6 +13,7 @@
 - **Scripts made executable**
 
 ### ✅ Phase 2 Complete - Script Adaptation
+
 - `create_worktree.sh` - Applied SWD pattern, removed HumanLayer thoughts init
 - `cleanup_worktree.sh` - Applied SWD pattern, customized worktree base path
 - `setup_repo.sh` - Applied SWD pattern, converted to template
@@ -23,6 +25,7 @@
 #### Commands with External Dependencies (16 files)
 
 **Pattern: `humanlayer` references**
+
 - `ci_describe_pr.md` - HumanLayer tool references
 - `create_handoff.md` - HumanLayer-specific workflow
 - `create_plan.md` - References `humanlayer` CLI
@@ -41,6 +44,7 @@
 - `resume_handoff.md` - References `humanlayer`
 
 **Pattern: `linear` references** (8 files)
+
 - `create_plan_generic.md` - Linear.app references
 - `create_plan_nt.md` - Linear.app references
 - `create_plan.md` - Linear.app references
@@ -54,11 +58,13 @@
 ### Scripts to Adapt (2 files)
 
 **Hardcoded paths found:**
+
 - `cleanup_worktree.sh` - Line 12: `WORKTREE_BASE_DIR="$HOME/.humanlayer/worktrees"`
 - `create_worktree.sh` - Likely has similar issues
 - `spec_metadata.sh` - Uses git rev-parse (OK, but verify)
 
 **No adaptation needed:**
+
 - `generate_*_icons.sh` - Skip (Tauri/icon generation, HumanLayer-specific)
 - `generate_nightly_icons.sh` - Skip (HumanLayer-specific)
 - `install_platform_deps.sh` - Adapt if needed for your project
@@ -69,6 +75,7 @@
 ## Decisions Made & Actions Taken
 
 ### Decision 1: HumanLayer CLI References ✅ IMPLEMENTED
+
 - **Choice**: STRIP - Remove tool calls, keep structures
 - **Actions**:
   - Removed all `humanlayer thoughts sync` calls (8 occurrences)
@@ -77,6 +84,7 @@
   - **Result**: 13 commands adapted and ready to use
 
 ### Decision 2: Linear.app Integration ✅ IMPLEMENTED
+
 - **Choice**: SKIP - Remove Linear-specific, use web search instead
 - **Actions**:
   - Deleted `linear.md` (HumanLayer-specific integration)
@@ -85,6 +93,7 @@
   - **Result**: Commands now use generic research agents
 
 ### Decision 3: Oneshot & Handoff Workflows ✅ IMPLEMENTED
+
 - **Choice**: SKIP - HumanLayer-specific, no direct equivalent
 - **Actions**:
   - Deleted: `oneshot.md`, `oneshot_plan.md`
@@ -93,6 +102,7 @@
   - **Result**: 8 HumanLayer-specific files removed
 
 ### Result: Clean, Portable Command Set
+
 - **Commands reduced** from 28 to 19 (removed HumanLayer-specific)
 - **All remaining commands** have HumanLayer tool references removed
 - **Directory paths** converted from `thoughts/` to `docs/`
@@ -114,6 +124,7 @@
 ## Files to Keep/Skip
 
 ### Keep (Generic & Reusable)
+
 - `commit.md` - No external dependencies
 - `ci_commit.md` - No external dependencies
 - `ci_describe_pr.md` - (has humanlayer refs, but safe to adapt)
@@ -123,10 +134,12 @@
 - `founder_mode.md` - (has linear refs, but safe to adapt)
 
 ### Skip (HumanLayer-Specific)
+
 - `create_handoff.md` - Handoff system specific
 - `resume_handoff.md` - Handoff system specific
 
 ### Decide Later (Tool-Specific)
+
 - `linear.md` - Linear.app only
 - `oneshot.md` - Requires npx
 - `local_review.md` - Requires humanlayer sync

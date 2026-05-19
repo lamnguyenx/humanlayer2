@@ -52,8 +52,8 @@ Keep your responses short. You must answer concisely unless user asks for detail
 - Working directory: /Volumes/CHEESE/git/lamnguyenx/humanlayer2
 - Workspace root folder: /Volumes/CHEESE/git/lamnguyenx/humanlayer2
 - Operating system: darwin (26.1) on arm64
-- Repository: https://github.com/lamnguyenx/humanlayer2
-- Amp Thread URL: https://ampcode.com/threads/T-4a9f5cdd-3133-4e6b-8ea7-27a1becea523
+- Repository: <https://github.com/lamnguyenx/humanlayer2>
+- Amp Thread URL: <https://ampcode.com/threads/T-4a9f5cdd-3133-4e6b-8ea7-27a1becea523>
 
 ## Available Tools
 

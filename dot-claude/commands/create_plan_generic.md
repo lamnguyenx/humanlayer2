@@ -17,6 +17,7 @@ When this command is invoked:
    - Begin the research process
 
 2. **If no parameters provided**, respond with:
+
 ```
 I'll help you create a detailed implementation plan. Let me start by understanding what we're building.
 
@@ -71,6 +72,7 @@ Then wait for the user's input.
    - Determine true scope based on codebase reality
 
 5. **Present informed understanding and focused questions**:
+
    ```
    Based on the ticket and my research of the codebase, I understand we need to [accurate summary].
 
@@ -122,9 +124,10 @@ After getting initial clarifications:
    - Return specific file:line references
    - Find tests and examples
 
-3. **Wait for ALL sub-tasks to complete** before proceeding
+4. **Wait for ALL sub-tasks to complete** before proceeding
 
-4. **Present findings and design options**:
+5. **Present findings and design options**:
+
    ```
    Based on my research, here's what I found:
 
@@ -148,6 +151,7 @@ After getting initial clarifications:
 Once aligned on approach:
 
 1. **Create initial plan outline**:
+
    ```
    Here's my proposed plan structure:
 
@@ -281,6 +285,7 @@ After structure approval:
    - This ensures the plan is properly indexed and available
 
 2. **Present the draft plan location**:
+
    ```
    I've created the initial implementation plan at:
    `docs/shared/plans/YYYY-MM-DD-ENG-XXXX-description.md`
@@ -355,6 +360,7 @@ After structure approval:
    - User acceptance criteria
 
 **Format example:**
+
 ```markdown
 ### Success Criteria:
 
@@ -373,21 +379,24 @@ After structure approval:
 
 ## Common Patterns
 
-### For Database Changes:
+### For Database Changes
+
 - Start with schema/migration
 - Add store methods
 - Update business logic
 - Expose via API
 - Update clients
 
-### For New Features:
+### For New Features
+
 - Research existing patterns first
 - Start with data model
 - Build backend logic
 - Add API endpoints
 - Implement UI last
 
-### For Refactoring:
+### For Refactoring
+
 - Document current behavior
 - Plan incremental changes
 - Maintain backwards compatibility
@@ -415,6 +424,7 @@ When spawning research sub-tasks:
    - Don't accept results that seem incorrect
 
 Example of spawning multiple tasks:
+
 ```python
 # Spawn these tasks concurrently:
 tasks = [

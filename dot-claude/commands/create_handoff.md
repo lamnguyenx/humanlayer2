@@ -11,6 +11,7 @@ You are tasked with writing a handoff document to hand off your work to another 
 ### 1. Filepath & Metadata
 
 Use the following information to understand how to create your document:
+
 - Create your file under `docs/handoffs/[TICKET]/YYYY-MM-DD_HH-MM-SS_[DESCRIPTION].md`, where:
   - YYYY-MM-DD is today's date
   - HH-MM-SS is the hours, minutes and seconds based on the current time, in 24-hour format (i.e. use `13:00` for `1:00 pm`)
@@ -72,6 +73,7 @@ type: handoff
 ### 3. Save and Commit
 
 Once you've created the handoff document:
+
 1. Save it to the path specified above
 2. Commit it to git: `git add docs/handoffs/ && git commit -m "docs: handoff for [TICKET/description]"`
 3. Provide the user with the handoff path for resuming

@@ -7,16 +7,17 @@ model: opus
 
 You are tasked with conducting comprehensive research across the codebase to answer user questions by spawning parallel sub-agents and synthesizing their findings.
 
-## Initial Setup:
+## Initial Setup
 
 When this command is invoked, respond with:
+
 ```
 I'm ready to research the codebase. Please provide your research question or area of interest, and I'll analyze it thoroughly by exploring relevant components and connections.
 ```
 
 Then wait for the user's research query.
 
-## Steps to follow after receiving the research query:
+## Steps to follow after receiving the research query
 
 1. **Read any directly mentioned files first:**
    - If the user mentions specific files (tickets, docs, JSON), read them FULLY first
@@ -66,6 +67,7 @@ Then wait for the user's research query.
 6. **Generate research document:**
    - Use the metadata gathered in step 4
    - Structure the document with YAML frontmatter followed by content:
+
      ```markdown
      ---
      date: [Current date and time with timezone in ISO format]
@@ -144,7 +146,8 @@ Then wait for the user's research query.
    - Spawn new sub-agents as needed for additional investigation
    - Continue updating the document and syncing
 
-## Important notes:
+## Important notes
+
 - Always use parallel Task agents to maximize efficiency and minimize context usage
 - Always run fresh codebase research - never rely solely on existing research documents
 - The docs/ directory provides historical context to supplement live findings

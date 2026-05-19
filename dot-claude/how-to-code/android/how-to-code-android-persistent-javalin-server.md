@@ -359,6 +359,7 @@ public class HttpServerService extends Service {
 | `lsof` shows owner? | ❌ No (process dead) | ✅ Yes (your own PID) |
 
 During hot reload:
+
 1. The process **stays alive** (same PID).
 2. `onDestroy()` is called on the old Service instance.
 3. Native threads and sockets **survive** because the process didn't die.

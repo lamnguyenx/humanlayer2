@@ -14,7 +14,7 @@
 
 7. **Track progress visibly at the bottom**. Add a progress line showing completed vs total tasks. GitHub auto-generates a progress bar from checkboxes, but a manual count helps when viewing the issue body directly.
 
-## Example:
+## Example
 
 ````markdown
 # RULE 1: Use a descriptive prefix in the title

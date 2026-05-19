@@ -25,7 +25,7 @@ Write an one example guide with this structure:
 
 The goal: Someone should be able to scan the rules quickly, then reference the annotated examples to see exactly how to apply them.
 
-## Template:
+## Template
 
 ```markdown
 # How to [Action/Format/Do Something]

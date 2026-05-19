@@ -59,6 +59,7 @@ Create a practical, step-by-step plan for reusing HumanLayer's Claude Code comma
 **Expected Output:**
 
 A comprehensive reuse plan including:
+
 1. List of files (grouped by complexity)
 2. Dependency analysis (what calls what)
 3. Tiered adaptation strategy (quick wins first)

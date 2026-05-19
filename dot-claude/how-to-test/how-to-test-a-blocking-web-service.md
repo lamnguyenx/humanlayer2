@@ -1,7 +1,9 @@
 # Guide for AI Agent: Testing Blocking Web Services in Single-Shell Environments
 
 ## Context
+
 You are operating in a constrained environment where:
+
 - Only ONE shell session is available
 - No terminal multiplexers (tmux, screen) can be used
 - No Docker or containerization
@@ -10,6 +12,7 @@ You are operating in a constrained environment where:
 ## Core Strategy: Background Execution with `&`
 
 ### Basic Pattern
+
 ```bash
 SERVICE_PORT=8080
 # Start service in background
@@ -26,6 +29,7 @@ kill $SERVICE_PID
 ## Step-by-Step Implementation Guide
 
 ### 1. Pre-flight Checks
+
 Before starting the service, verify the environment:
 
 ```bash
@@ -41,6 +45,7 @@ pwd
 ```
 
 ### 2. Start Service with Proper Logging
+
 ```bash
 # Create log file with timestamp
 LOG_FILE="service_$(date +%Y%m%d_%H%M%S).log"
@@ -54,6 +59,7 @@ ps -p $SERVICE_PID || echo "Failed to start service"
 ```
 
 ### 3. Wait for Service Readiness
+
 ```bash
 SERVICE_PORT=8080
 # Method 1: Port check with timeout
@@ -71,6 +77,7 @@ done
 ```
 
 ### 4. Execute Tests
+
 ```bash
 SERVICE_PORT=8080
 # Run HTTP test commands
@@ -91,6 +98,7 @@ echo '{"type": "ping"}' | websocat ws://localhost:${SERVICE_PORT}/ws
 ```
 
 ### 5. Cleanup
+
 ```bash
 # Stop the service
 kill $SERVICE_PID
@@ -185,6 +193,7 @@ START
 ## Important Patterns to Remember
 
 ### Pattern 1: Inline Testing
+
 ```bash
 SERVICE_PORT=8080
 # One-liner for quick tests
@@ -192,6 +201,7 @@ SERVICE_PORT=8080
 ```
 
 ### Pattern 2: Subshell Isolation
+
 ```bash
 SERVICE_PORT=8080
 # Everything in a subshell - automatic cleanup
@@ -199,6 +209,7 @@ SERVICE_PORT=8080
 ```
 
 ### Pattern 3: Error Handling
+
 ```bash
 # With error handling
 ./web-service & PID=$! || { echo "Failed to start"; exit 1; }
@@ -209,6 +220,7 @@ trap "kill $PID 2>/dev/null" EXIT
 ## Common Issues and Solutions
 
 1. **Port Already in Use**
+
    ```bash
    SERVICE_PORT=8080
    # Find and kill process using port
@@ -216,12 +228,14 @@ trap "kill $PID 2>/dev/null" EXIT
    ```
 
 2. **Service Doesn't Stop**
+
    ```bash
    # Escalate from SIGTERM to SIGKILL
    kill $PID || kill -9 $PID
    ```
 
 3. **Can't Find Process**
+
    ```bash
    # Use pgrep if PID is lost
    pgrep -f "web-service" | xargs kill
@@ -238,4 +252,5 @@ trap "kill $PID 2>/dev/null" EXIT
 - Wait for process: `wait $PID`
 
 ## Final Note
+
 Always ensure cleanup happens, even if tests fail. The background process MUST be terminated to free resources and ports for subsequent operations.

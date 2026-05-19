@@ -18,7 +18,6 @@ How to use this:
 
 # 📄 Documentation Sync Workflow
 
-
 > **Philosophy:** After implementation, the **code is the source of truth** — not the plan.
 > This workflow closes the loop between what you *planned* and what you *built*.
 

@@ -9,6 +9,7 @@ Adapt the existing `dot-claude/` configuration directory to OpenCode's `.opencod
 ## Current State Analysis
 
 The project currently uses Claude-specific configuration in `dot-claude/` with:
+
 - 6 specialized agents in `agents/` directory
 - 21 custom commands in `commands/` directory
 - Settings in `settings.json` with permissions, MCP config, and environment variables
@@ -23,7 +24,8 @@ All functionality needs to be preserved while migrating to OpenCode's format.
 - Configuration migrated to `opencode.json` with proper schema
 - Full compatibility with OpenCode agent and command system
 
-### Key Discoveries:
+### Key Discoveries
+
 - Agents use Claude-specific frontmatter (`name`, `tools` as comma-separated)
 - Commands have basic frontmatter but may need `agent` specifications
 - Settings use custom permission format not matching OpenCode schema
@@ -38,6 +40,7 @@ All functionality needs to be preserved while migrating to OpenCode's format.
 ## Implementation Approach
 
 Incremental migration following OpenCode documentation:
+
 1. Directory restructuring
 2. Agent file format conversion
 3. Command file updates
@@ -47,30 +50,36 @@ Incremental migration following OpenCode documentation:
 ## Phase 1: Directory Restructuring
 
 ### Overview
+
 Rename directories to match OpenCode structure and create new location.
 
-### Changes Required:
+### Changes Required
 
 #### 1. Directory Creation
+
 **Command**: `cp -r dot-claude .opencode`
 
 #### 2. Subdirectory Renames
+
 **Commands**:
+
 ```bash
 cd .opencode
 mv agents agent
 mv commands command
 ```
 
-### Success Criteria:
+### Success Criteria
 
-#### Automated Verification:
+#### Automated Verification
+
 - [ ] Directory structure matches OpenCode: `.opencode/agent/`, `.opencode/command/`
 - [ ] All files preserved in new locations
 - [ ] `dot-claude/` directory remains intact as ground truth
 - [ ] Git shows additions for `.opencode/`: `git status` shows new files, not renames
 
-#### Manual Verification:
+#### Manual Verification
+
 - [ ] No file content lost in moves
 - [ ] Directory structure correct
 
@@ -81,17 +90,21 @@ mv commands command
 ## Phase 2: Agent File Migration
 
 ### Overview
+
 Convert all 6 agent files from Claude format to OpenCode subagent format.
 
-### Changes Required:
+### Changes Required
 
 #### 1. Frontmatter Updates
+
 **Files**: `.opencode/agent/*.md`
 
 For each agent file:
+
 - Remove `name:` field
 - Add `mode: subagent`
 - Convert `tools:` from "Read, Grep, Glob, LS" to:
+
 ```yaml
 tools:
   read: true
@@ -99,9 +112,11 @@ tools:
   glob: true
   list: true
 ```
+
 - Update `model:` to `xai/grok-code-fast-1` for all agents (use this specific model for all adapted agents)
 
 **Example transformation**:
+
 ```yaml
 # Before
 ---
@@ -124,16 +139,18 @@ model: opencode/grok-code
 ---
 ```
 
-### Success Criteria:
+### Success Criteria
 
-#### Automated Verification:
+#### Automated Verification
+
 - [ ] All 6 agent files have valid YAML frontmatter
 - [ ] No `name:` fields remain
 - [ ] All files have `mode: subagent`
 - [ ] Tools converted to object format
 - [ ] All models set to `xai/grok-code-fast-1`
 
-#### Manual Verification:
+#### Manual Verification
+
 - [ ] Agent descriptions and prompts unchanged
 - [ ] File naming matches intended agent names
 
@@ -142,19 +159,23 @@ model: opencode/grok-code
 ## Phase 3: Command File Migration
 
 ### Overview
+
 Review and update 21 command files to OpenCode format.
 
-### Changes Required:
+### Changes Required
 
 #### 1. Frontmatter Updates
+
 **Files**: `.opencode/command/*.md`
 
 For each command file:
+
 - Update `model:` to `xai/grok-code-fast-1` for all commands (use this specific model for all adapted commands)
 - Add `agent:` field where appropriate (for commands that should run as subagents)
 - Ensure `description:` field exists
 
 **Example**:
+
 ```yaml
 # Before
 ---
@@ -169,14 +190,16 @@ model: opencode/grok-code
 ---
 ```
 
-### Success Criteria:
+### Success Criteria
 
-#### Automated Verification:
+#### Automated Verification
+
 - [ ] All 21 command files have valid YAML frontmatter
 - [ ] All models set to `xai/grok-code-fast-1`
 - [ ] No syntax errors in frontmatter
 
-#### Manual Verification:
+#### Manual Verification
+
 - [ ] Command templates and descriptions preserved
 - [ ] Agent assignments appropriate for command purposes
 
@@ -185,14 +208,17 @@ model: opencode/grok-code
 ## Phase 4: Configuration Migration
 
 ### Overview
+
 Convert `settings.json` to `opencode.json` with proper OpenCode schema.
 
-### Changes Required:
+### Changes Required
 
 #### 1. File Rename and Schema Conversion
+
 **File**: `.opencode/opencode.json`
 
 Convert from:
+
 ```json
 {
   "permissions": {
@@ -206,6 +232,7 @@ Convert from:
 ```
 
 To OpenCode format:
+
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
@@ -225,15 +252,17 @@ To OpenCode format:
 }
 ```
 
-### Success Criteria:
+### Success Criteria
 
-#### Automated Verification:
+#### Automated Verification
+
 - [ ] Valid JSON with OpenCode schema
 - [ ] Permissions converted to correct format
 - [ ] MCP settings properly mapped
 - [ ] Environment variables preserved
 
-#### Manual Verification:
+#### Manual Verification
+
 - [ ] Permission logic equivalent to original
 - [ ] MCP configuration correct
 
@@ -241,16 +270,19 @@ To OpenCode format:
 
 ## Testing Strategy
 
-### Unit Tests:
+### Unit Tests
+
 - YAML frontmatter parsing for all agent/command files
 - JSON schema validation for opencode.json
 
-### Integration Tests:
+### Integration Tests
+
 - OpenCode can load the .opencode directory
 - Agents appear in agent list with correct modes
 - Commands appear in command list
 
-### Manual Testing Steps:
+### Manual Testing Steps
+
 1. Run `opencode` and verify .opencode directory is recognized
 2. Check that all subagents are available with @ mentions
 3. Test that commands appear in / command list

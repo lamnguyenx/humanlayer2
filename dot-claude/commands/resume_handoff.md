@@ -177,24 +177,28 @@ Then wait for the user's input.
 ## Common Scenarios
 
 ### Scenario 1: Clean Continuation
+
 - All changes from handoff are present
 - No conflicts or regressions
 - Clear next steps in action items
 - Proceed with recommended actions
 
 ### Scenario 2: Diverged Codebase
+
 - Some changes missing or modified
 - New related code added since handoff
 - Need to reconcile differences
 - Adapt plan based on current state
 
 ### Scenario 3: Incomplete Handoff Work
+
 - Tasks marked as "in_progress" in handoff
 - Need to complete unfinished work first
 - May need to re-understand partial implementations
 - Focus on completing before new work
 
 ### Scenario 4: Stale Handoff
+
 - Significant time has passed
 - Major refactoring has occurred
 - Original approach may no longer apply
