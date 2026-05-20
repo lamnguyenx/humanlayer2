@@ -8,7 +8,7 @@ You are an expert Information Architect and Instructional Designer. Your task is
 
 markmap:
   colorFreezeLevel: 2
-  maxWidth: 800
+  maxWidth: 400
 ---
 
 - Use exactly ONE `#` (H1) for the main title of the document (include a relevant emoji).
@@ -35,6 +35,7 @@ Markmap renders nodes as horizontal pills. To keep the map visually balanced and
 
 ## Coursera Specific Requrements
 
+
 ### Input vs. Output
 
 - Input File:  /root/dir/lectures/<file_name>.md
@@ -43,3 +44,88 @@ Markmap renders nodes as horizontal pills. To keep the map visually balanced and
 ### New Line Tags
 
 - For H1/H2, in the markmap, use <br/> aggressively (multiple <br/> at once is ok) to save the horizontal spaces
+
+## Headings
+- H1 heading starts with "Lecture X.Y: .."
+- H1 and H2 headings in all markmap files to aggressively use <br/> to break text into multiple short lines, saving horizontal space in the markmap visualization, using this script:
+
+```python
+#!/usr/bin/env python3
+import argparse, re, sys
+from pathlib import Path
+
+_SYMBOLS = {'→', '+', '-', '=', '&', '/', 'vs', 'x', '*', '•'}
+
+def split_text_aggressive(t, m=2):
+    w = t.split()
+    if len(w) <= 1:
+        return t
+    r = []
+    for x in w:
+        r[-1] = r[-1] + ' ' + x if r and x in _SYMBOLS else r + [x]
+    w = r
+    l, c, d = [], [], 0
+    for x in w:
+        d += x.count('(') - x.count(')')
+        c.append(x)
+        if d <= 0 and len(c) >= m:
+            l.append(' '.join(c)); c = []; d = 0
+    if c:
+        l.append(' '.join(c))
+    return '<br/>'.join(l)
+
+def process_heading(l):
+    m = re.match(r'^(#{1,2}\s)(.*)$', l)
+    if not m:
+        return l
+    p, r = m.group(1), m.group(2)
+    if p == '# ':
+        n = re.match(r'^(.*Lecture\s+\d+\.\d+[:：]\s*)(.*)$', r)
+        if n:
+            a, b = n.group(1).strip(), n.group(2).strip()
+            return f"# {a}<br/>{split_text_aggressive(b)}" if b else f"# {a}"
+        return f"# {split_text_aggressive(r)}"
+    return f"## {split_text_aggressive(r, 1)}"
+
+def process_file(fp):
+    c = fp.read_text(encoding='utf-8')
+    n, d = [], False
+    for l in c.splitlines():
+        if re.match(r'^#{1,2}\s', l):
+            g = re.sub(r'\s+', ' ', l.replace('<br/>', ' ').replace('<br>', ' '))
+            h = process_heading(g)
+            d |= h != l
+            n.append(h)
+        else:
+            n.append(l)
+    if d:
+        fp.write_text('\n'.join(n) + '\n', encoding='utf-8')
+        print(f"Modified: {fp}")
+    else:
+        print(f"No changes: {fp}")
+
+def main():
+    p = argparse.ArgumentParser(description="Add aggressive <br/> tags to H1/H2 headings.")
+    p.add_argument("target", help="Path to .markmap.md file or directory")
+    a = p.parse_args()
+    t = Path(a.target)
+    if not t.exists():
+        print(f"Error: target does not exist: {t}", file=sys.stderr); sys.exit(1)
+    if t.is_file():
+        if not t.name.endswith('.markmap.md'):
+            print(f"Error: not .markmap.md: {t}", file=sys.stderr); sys.exit(1)
+        process_file(t)
+    elif t.is_dir():
+        f = sorted(t.rglob("*.markmap.md"))
+        print(f"Found {len(f)} markmap files in {t}")
+        if not f:
+            print("Nothing to do."); return
+        for x in f:
+            process_file(x)
+    else:
+        print(f"Error: not a file or directory: {t}", file=sys.stderr); sys.exit(1)
+    print("Done!")
+
+if __name__ == '__main__':
+    main()
+```
