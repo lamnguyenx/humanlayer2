@@ -1,0 +1,1 @@
+Read the file, identify its H1 heading (the line starting with `# `), and add a `>` blockquote summary line immediately after that H1. The summary should be a one-sentence description of what the document covers, written as a `>` blockquote line. Then save the updated content back to the same file using the Write tool. Return the summary you added.
