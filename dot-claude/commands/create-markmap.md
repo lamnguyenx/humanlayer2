@@ -38,8 +38,8 @@ Markmap renders nodes as horizontal pills. To keep the map visually balanced and
 
 ### Input vs. Output
 
-- Input File:  /root/dir/lectures/<file_name>.md
-- Output File: /root/dir/lectures-markmaps/<file_name>.markmap.md
+- Input File:  <parent_dir>/<file_name>.md
+- Output File: <parent_dir>-markmaps/<file_name>.markmap.md
 
 ### New Line Tags
 
@@ -52,7 +52,7 @@ Markmap renders nodes as horizontal pills. To keep the map visually balanced and
 ### Post-processing
 After writing all markmap files, run the project's built-in script to aggressively insert `<br/>` tags into H1/H2 headings:
 ```bash
-python3 local/fix_br_tags.py lectures-markmaps/
+fix_br_tags.py lectures-markmaps/
 ```
 If that fails, try the absolute path:
 ```bash
