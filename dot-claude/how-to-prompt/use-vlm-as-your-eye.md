@@ -8,7 +8,7 @@ opencode run -m "<model_id>" "<your_prompt>" -f <image_file_path> --thinking [--
 
 Ask the user which model and which reasoning level to use first. Options include:
 - `VAI 1/Qwen3-VL-32B-Instruct-FP8` (vision)
-- `opencode-go/muse-spark-1.2-contributor` (vision + reasoning; supports `--variant minimal|low|medium|high|xhigh`)
+- `opencode-go/muse-spark-1.3-contributor` (vision + reasoning; supports `--variant minimal|low|medium|high|xhigh`)
 - ...
 
 ## Multiple images
