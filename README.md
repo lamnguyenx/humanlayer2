@@ -1,68 +1,78 @@
 # humanlayer2
 
-> **Summary**: A repository extracting reusable Claude Code workflow components from HumanLayer, providing dependency-free prompts and scripts for general project integration.
+> **Summary**: Reusable Claude Code / OpenCode commands, agent prompts, how-to guides, and location-independent shell helpers extracted from HumanLayer, plus the notes for adapting them.
 
-## Purpose
+## What this is
 
-This repo extracts and adapts reusable parts from the HumanLayer submodule, focusing on:
+This repo extracts the reusable parts of [HumanLayer](https://github.com/humanlayer/humanlayer) and keeps them free of HumanLayer-specific dependencies:
 
-- **Claude Code commands** (`dot-claude/commands/`) - Generic prompts and workflows
-- **Agent definitions** (`dot-claude/agents/`) - Reusable analysis and research agents
-- **Utility scripts** (`hack/`) - Location-independent shell scripts for git worktrees, setup, etc.
+- **`dot-claude/`** — commands, how-to guides, separators, short prompts, and archived agent definitions.
+- **`dot-mini/`** — one-line prompt snippets for steering an agent during a session (see below).
+- **`hack/`** — shell scripts that work from any directory (worktrees, repo setup, icons, metadata).
+- **`docs/important/`** — durable, topic-organised documentation.
+- **`docs/plans/`** — dated session logs (what changed, trials, errors, lessons).
+- **`__submodules__/`** — upstream checkouts used as reference: `humanlayer/humanlayer` and an `opencode-docs` snapshot.
 
-The goal is to provide a clean, dependency-free starting point for integrating Claude Code workflows into any project, without the full HumanLayer stack.
-
-## What's Included
-
-Based on the [REUSE_PLAN.md](REUSE_PLAN.md):
-
-- **`dot-claude/commands/`**: Copied command files, with adaptations to remove HumanLayer-specific dependencies (e.g., replacing `npx humanlayer` with manual Claude Code instructions)
-- **`dot-claude/agents/`**: All agent definitions (pure prompts, no external deps)
-- **`hack/`**: Adapted shell scripts using the SWD pattern for location-independence
-- **`REUSE_PLAN.md`**: Detailed documentation on the extraction and adaptation process
-
-## Usage
-
-1. **Clone this repo** as a submodule or copy into your project
-2. **Copy the `dot-claude/` directory** to your target repo
-3. **Copy `hack/` scripts** and make them executable (`chmod +x hack/*.sh`)
-4. **Adapt as needed** - see REUSE_PLAN.md for common patterns
-
-### Quick Setup
-
-```bash
-# Copy to your project
-cp -r dot-claude/ /path/to/your-repo/
-cp -r hack/ /path/to/your-repo/
-chmod +x /path/to/your-repo/hack/*.sh
-
-# Test a script from anywhere
-cd /tmp && /path/to/your-repo/hack/create_worktree.sh TEST-001 test-branch
-```
-
-## Key Adaptations
-
-- **Scripts**: Use `SWD=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)` for location-independence
-- **Commands**: Replace `npx humanlayer launch` with manual Claude Code prompts
-- **External deps**: Remove Linear integrations; use web search or adapt for your tracker
-
-## Structure
+## Layout
 
 ```
 humanlayer2/
 ├── dot-claude/
-│   ├── commands/     # Adapted Claude Code commands
-│   ├── agents/       # Reusable agent prompts
-│   └── settings.json # Claude Code config
-├── hack/             # Adapted utility scripts
-├── REUSE_PLAN.md     # Extraction and adaptation guide
-└── README.md         # This file
+│   ├── commands/          # Claude Code / OpenCode slash commands
+│   ├── how-to-*/          # Code, git, plan, prompt, refactor, test, write guides
+│   ├── shorts/            # Short reusable prompts
+│   ├── separators/        # Prompt separator snippets
+│   ├── agents.old/        # Archived Claude agent definitions
+│   └── settings.json      # Claude Code settings
+├── dot-mini/              # One-line session prompts
+├── hack/                  # Standalone helper scripts
+├── sourcegraph/amp/       # Sourcegraph AMP material
+├── docs/
+│   ├── important/         # Durable docs, grouped by topic
+│   └── plans/YYYY/MM/DD/  # Dated session logs
+├── __submodules__/        # Upstream reference checkouts
+├── bach_lite.sh           # Small shell helper library
+├── Makefile               # OpenCode command installation
+└── README.md              # This file
 ```
+
+## Quickstart
+
+```bash
+# Install the commands into OpenCode (symlinks dot-claude/commands)
+make
+
+# Or copy the pieces into another project
+cp -r dot-claude /path/to/project/
+cp -r hack /path/to/project/ && chmod +x /path/to/project/hack/*.sh
+
+# Test a script from anywhere
+cd /tmp && /path/to/this/repo/hack/create_worktree.sh TEST-001 test-branch
+```
+
+**Using `dot-mini/`:** each file is a ready-to-paste prompt, not a script. Open the file, copy its text into your agent, and fill in the date/topic placeholders. For example, [`dot-mini/write-all-we-have-done-into.md`](dot-mini/write-all-we-have-done-into.md) records a session across the parent repo and its submodules; [`dot-mini/minimal-readme-and-docs-index.md`](dot-mini/minimal-readme-and-docs-index.md) describes the README + topic-docs layout this repo uses.
+
+## Docs index
+
+### Session docs
+
+- [Writing session docs across modules](docs/important/session-docs/writing-session-docs.md): how to log a session that touched both the parent repo and submodules, and why `git status` at the parent is not enough.
+
+### Work logs
+
+Dated logs live under [`docs/plans/`](docs/plans/), with newer entries in `YYYY/MM/DD/` folders. Recent entries:
+
+- [2026-11-10 — module-aware session docs](docs/plans/2026/11/10/2026-11-10-module-aware-session-docs.md): fixes the parent-only documentation failure mode.
+- [2025-11-12 — adapt dot-claude to OpenCode](docs/plans/2025-11-12-adapt-claude-to-opencode.md): directory, agent, command, and config migration plan.
+
+## Submodules
+
+The submodules are reference checkouts, not copies of this repo's prompts. A session that changes both the parent and a submodule documents each module in its own `docs/`; see [Writing session docs across modules](docs/important/session-docs/writing-session-docs.md). Don't create docs in a submodule you did not change — it dirties an otherwise clean checkout.
 
 ## Contributing
 
-This repo is for curated, reusable components only. Updates should maintain compatibility with the REUSE_PLAN.md process.
+This repo is for curated, reusable components. Keep the parent-only pieces dependency-free and location-independent, and update the relevant `docs/important/` topic plus this README's index in the same change.
 
 ## License
 
-See HumanLayer submodule for original licensing. Adaptations here are for general reuse.
+See the HumanLayer submodule for original licensing. Adaptations here are intended for general reuse.
